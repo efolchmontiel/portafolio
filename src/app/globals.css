@@ -1,26 +1,217 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --night-deep: #020617;
+  --night-mid: #0f172a;
+  --night-slate: #1e293b;
+  --accent-cyan: #38bdf8;
+  --accent-violet: #a78bfa;
+  --text-light: #f8fafc;
+  --background: var(--night-deep);
+  --foreground: var(--text-light);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-night-deep: var(--night-deep);
+  --color-night-mid: var(--night-mid);
+  --color-night-slate: var(--night-slate);
+  --color-accent-cyan: var(--accent-cyan);
+  --color-accent-violet: var(--accent-violet);
+  --color-text-light: var(--text-light);
+  --font-sans: var(--font-inter);
+  --font-display: var(--font-space-grotesk);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+html {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--night-deep);
+  color: var(--text-light);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+  min-height: 100%;
+}
+
+.site-nav > div {
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
+}
+
+.site-nav button {
+  text-shadow: 0 1px 12px rgba(2, 6, 23, 0.95);
+}
+
+::selection {
+  background: color-mix(in srgb, var(--accent-cyan) 35%, transparent);
+  color: var(--text-light);
+}
+
+.glass-panel {
+  background: color-mix(in srgb, var(--night-slate) 45%, transparent);
+  backdrop-filter: blur(20px);
+  border: 1px solid color-mix(in srgb, white 12%, transparent);
+  box-shadow:
+    0 0 40px color-mix(in srgb, var(--accent-cyan) 8%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-cyan) 45%, transparent);
+}
+
+.glow-violet {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-violet) 45%, transparent);
+}
+
+.section-title {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  letter-spacing: -0.02em;
+}
+
+.canvas-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--night-deep);
+}
+
+/* Viñeta si falla el post-procesado WebGL */
+.canvas-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 85% 75% at 50% 45%,
+    transparent 38%,
+    rgba(2, 6, 23, 0.45) 100%
+  );
+}
+
+/* Estrellas de respaldo (visibles en todo el scroll) */
+.stars-backdrop {
+  background-image:
+    radial-gradient(1px 1px at 10% 15%, rgba(248, 250, 252, 0.5), transparent),
+    radial-gradient(1px 1px at 25% 8%, rgba(203, 213, 225, 0.4), transparent),
+    radial-gradient(1px 1px at 40% 22%, rgba(248, 250, 252, 0.35), transparent),
+    radial-gradient(1px 1px at 55% 12%, rgba(203, 213, 225, 0.45), transparent),
+    radial-gradient(1px 1px at 70% 28%, rgba(248, 250, 252, 0.4), transparent),
+    radial-gradient(1px 1px at 85% 18%, rgba(203, 213, 225, 0.5), transparent),
+    radial-gradient(1px 1px at 92% 35%, rgba(248, 250, 252, 0.35), transparent),
+    radial-gradient(1px 1px at 15% 45%, rgba(203, 213, 225, 0.3), transparent),
+    radial-gradient(1px 1px at 35% 55%, rgba(248, 250, 252, 0.35), transparent),
+    radial-gradient(1px 1px at 60% 48%, rgba(203, 213, 225, 0.4), transparent),
+    radial-gradient(1px 1px at 78% 52%, rgba(248, 250, 252, 0.4), transparent),
+    radial-gradient(1px 1px at 88% 62%, rgba(203, 213, 225, 0.45), transparent),
+    radial-gradient(1.2px 1.2px at 48% 38%, rgba(248, 250, 252, 0.55), transparent),
+    radial-gradient(1px 1px at 22% 72%, rgba(203, 213, 225, 0.35), transparent),
+    radial-gradient(1px 1px at 72% 78%, rgba(248, 250, 252, 0.4), transparent);
+  background-size: 100% 100%;
+}
+
+.content-layer {
+  position: relative;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* Cerro negro a ancho completo (suelo bajo siluetas) */
+.horizon-ground {
+  position: fixed;
+  z-index: 5;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: min(32vh, 260px);
+  background: #000;
+  clip-path: polygon(
+    0% 100%,
+    0% 38%,
+    32% 14%,
+    58% 22%,
+    100% 32%,
+    100% 100%
+  );
+  box-shadow: 0 -1px 0 #000;
+}
+
+/* Narrativa dual — ancla independiente por silueta */
+.horizon-story {
+  overflow: visible;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.horizon-story__slot {
+  position: fixed;
+  transition: opacity 0.65s ease-in-out;
+  max-height: min(52vh, calc(100dvh - 120px));
+}
+
+.horizon-story__nino {
+  left: -4%;
+  bottom: 11%;
+  width: min(300px, 40vw);
+}
+
+.horizon-story__telescopio {
+  /* Desktop calibrado: left ≈ -116.809px @ ~1440px → ~-8.1vw */
+  left: clamp(-140px, -8.1vw, -52px);
+  bottom: 5%;
+  width: min(540px, 64vw);
+}
+
+.horizon-story__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: min(52vh, calc(100dvh - 120px));
+  object-fit: contain;
+  object-position: left bottom;
+}
+
+@media (max-width: 768px) {
+  .horizon-story__nino {
+    left: 31%;
+    bottom: 20%;
+    width: min(240px, 52vw);
+  }
+
+  .horizon-story__telescopio {
+    left: clamp(-55px, 29vw, 109px);
+    bottom: 14%;
+    width: min(100vw, 480px);
+  }
+
+  .horizon-story__slot,
+  .horizon-story__img {
+    max-height: min(46vh, calc(100dvh - 100px));
+  }
 }

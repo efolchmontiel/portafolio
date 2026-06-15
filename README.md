@@ -1,36 +1,90 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portafolio cinematográfico
 
-## Getting Started
+Landing interactiva con escena 3D nocturna (React Three Fiber), scroll cinematográfico (GSAP + Lenis) y UI glassmorphism.
 
-First, run the development server:
+## Stack
+
+- Next.js 16 (App Router)
+- React, TypeScript, Tailwind CSS v4
+- Three.js / React Three Fiber / Drei
+- GSAP + ScrollTrigger
+- Framer Motion
+- Scroll nativo + GSAP ScrollTrigger
+
+## Requisitos
+
+- Node.js 20+
+- [pnpm](https://pnpm.io/installation) 9+
+
+## Instalación
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
+pnpm install
+# Edita .env.local con GitHub, LinkedIn y correo (ver comentarios en el archivo)
 pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abrí [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> **Importante:** este repo usa **pnpm** como gestor de paquetes. No uses `npm install` ni `npm run` aquí.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Variables de entorno
 
-## Learn More
+| Variable | Descripción |
+|----------|-------------|
+| `NEXT_PUBLIC_GITHUB_URL` | URL de tu perfil o repo en GitHub |
+| `NEXT_PUBLIC_LINKEDIN_URL` | URL de tu perfil de LinkedIn |
+| `NEXT_PUBLIC_EMAIL` | Correo de contacto (se usa en enlace mailto) |
 
-To learn more about Next.js, take a look at the following resources:
+## Scripts
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Comando | Acción |
+|---------|--------|
+| `pnpm dev` | Servidor de desarrollo |
+| `pnpm build` | Build de producción |
+| `pnpm start` | Servir build |
+| `pnpm lint` | ESLint |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Estructura
 
-## Deploy on Vercel
+- `src/models/` — interfaces y tipos de dominio (Project, Company, TechCategory, etc.)
+- `src/data/` — contenido estático tipado
+- `src/config/` — configuración validada (`env.ts`)
+- `src/lib/` — utilidades (`errors.ts`, `validation.ts`)
+- `src/components/scene/` — escena 3D (estrellas, meteoros, siluetas, cámara)
+- `src/components/sections/` — Hero, About, Technologies, Principles, Projects, Contact, Companies
+- `assets/imagenes/` — PNG de siluetas y logos de empresas
+- `AGENTS.md` — reglas de revisión GGA (Gentleman Guardian Angel)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## GGA (revisión de código)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Requisito global (una vez):
+
+```bash
+gentle-ai install --component gga --agent cursor
+```
+
+En este repo:
+
+```bash
+# Si `gga` está aliased a git en tu shell, usá la ruta completa:
+GGA=/home/linuxbrew/.linuxbrew/Cellar/gga/*/bin/gga
+
+$GGA init      # ya ejecutado — crea .gga
+$GGA install   # instala pre-commit hook
+$GGA review    # revisión manual opcional
+```
+
+Reglas del proyecto: [`AGENTS.md`](AGENTS.md).
+
+## Accesibilidad
+
+Con `prefers-reduced-motion: reduce` se desactivan meteoros y animaciones de cámara extendidas.
+
+## Desarrollo
+
+El script `pnpm dev` usa Webpack (no Turbopack) para evitar indicadores extra del modo desarrollo de Next.js.
+
+## Deploy
+
+Compatible con [Vercel](https://vercel.com). En el panel del proyecto, configurá el install command como `pnpm install` y `NEXT_PUBLIC_GITHUB_URL` en variables de entorno.
