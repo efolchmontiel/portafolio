@@ -1,5 +1,6 @@
 "use client";
 
+import type { PointerEvent as ReactPointerEvent } from "react";
 import { motion } from "framer-motion";
 import { craftCells } from "@/data/craft";
 import { processPhases } from "@/data/process";
@@ -16,8 +17,32 @@ import { CraftIcon } from "@/components/ui/CraftIcon";
  * proceso (cian → turquesa → violeta → ámbar) y el stack repite esa paleta.
  */
 export function CraftSection() {
+  /*
+    Un solo listener para las diez tarjetas: mueve el foco de luz de la que
+    está bajo el puntero sin registrar diez handlers.
+  */
+  const onPointerMove = (event: ReactPointerEvent<HTMLElement>) => {
+    const card = (event.target as HTMLElement).closest<HTMLElement>(
+      ".phase, .craft-cell",
+    );
+    if (!card) return;
+    const rect = card.getBoundingClientRect();
+    card.style.setProperty(
+      "--px",
+      `${(((event.clientX - rect.left) / rect.width) * 100).toFixed(1)}%`,
+    );
+    card.style.setProperty(
+      "--py",
+      `${(((event.clientY - rect.top) / rect.height) * 100).toFixed(1)}%`,
+    );
+  };
+
   return (
-    <section id={sectionIds.craft} className="chapter">
+    <section
+      id={sectionIds.craft}
+      className="chapter"
+      onPointerMove={onPointerMove}
+    >
       <div className="wrap">
         <motion.p
           className="label"
