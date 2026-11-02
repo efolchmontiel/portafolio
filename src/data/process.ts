@@ -14,6 +14,7 @@ export const processPhases: readonly ProcessPhase[] = [
     title: "Análisis",
     detail:
       "Entender el problema antes de escribir código: quién lo usa, qué necesita y qué restricción tiene el negocio.",
+    accent: "cyan",
   },
   {
     id: "arquitectura",
@@ -21,6 +22,7 @@ export const processPhases: readonly ProcessPhase[] = [
     title: "Arquitectura",
     detail:
       "Modelar el sistema con fronteras explícitas entre UI, dominio y datos. Contratos de API estables y decisiones reversibles.",
+    accent: "teal",
   },
   {
     id: "metodologia",
@@ -28,6 +30,7 @@ export const processPhases: readonly ProcessPhase[] = [
     title: "Metodología",
     detail:
       "Scrum y trabajo por iteraciones: issue, rama, pull request y revisión. Cambios chicos y revisables antes de tocar producción.",
+    accent: "violet",
   },
   {
     id: "entrega",
@@ -35,5 +38,6 @@ export const processPhases: readonly ProcessPhase[] = [
     title: "Entrega",
     detail:
       "Validación en desarrollo, QA/QA2 y producción. Si algo falla, se corrige con evidencia y se deja el registro en el repositorio.",
+    accent: "amber",
   },
 ] as const;

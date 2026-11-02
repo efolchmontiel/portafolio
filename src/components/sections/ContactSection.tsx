@@ -3,6 +3,7 @@
 import { sectionIds } from "@/data/sections";
 import { motion } from "framer-motion";
 import { publicEnv } from "@/config/env";
+import { accentStyle } from "@/lib/accents";
 import { easeOut, revealViewport } from "@/lib/motion";
 import type { ContactLink } from "@/models/contact.model";
 
@@ -71,6 +72,13 @@ function buildContactLinks(): ContactLinkView[] {
 
 const contactLinks = buildContactLinks();
 
+/** Cada plataforma con su color, como las tarjetas de repositorio. */
+const LINK_ACCENT = {
+  github: "cyan",
+  linkedin: "teal",
+  email: "violet",
+} as const;
+
 /**
  * Cierre del recorrido.
  *
@@ -130,6 +138,7 @@ export function ContactSection() {
                 target={id === "email" ? undefined : "_blank"}
                 rel={id === "email" ? undefined : "noopener noreferrer"}
                 className="closing__link"
+                style={accentStyle(LINK_ACCENT[id])}
               >
                 <Icon />
                 <span>{display ?? label}</span>

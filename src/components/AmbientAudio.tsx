@@ -1,7 +1,6 @@
 "use client";
 
 import { useAmbientAudio } from "@/hooks/useAmbientAudio";
-import { ambientAudio } from "@/config/audio";
 
 const BAR_COUNT = 4;
 
@@ -46,18 +45,6 @@ export function AmbientAudio() {
         <span className="site-audio__label">{status}</span>
       </button>
 
-      {isPlaying ? (
-        <p className="site-audio__credit">
-          {ambientAudio.title} · {ambientAudio.author} ·{" "}
-          <a
-            href={ambientAudio.licenseUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {ambientAudio.license}
-          </a>
-        </p>
-      ) : null}
     </div>
   );
 }

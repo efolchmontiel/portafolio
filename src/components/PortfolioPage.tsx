@@ -15,6 +15,7 @@ import { HorizonStoryLayer } from "@/components/HorizonStoryLayer";
 import { ZodiacLayer } from "@/components/ZodiacLayer";
 import { StarsBackdrop } from "@/components/StarsBackdrop";
 import { Meteors } from "@/components/ui/meteors";
+import { Colophon } from "@/components/Colophon";
 
 const NightScene = dynamic(
   () =>
@@ -54,6 +55,7 @@ export function PortfolioPage() {
           <CraftSection />
           <ProjectsSection />
           <ContactSection />
+          <Colophon />
         </main>
       </ShootingStarProvider>
     </ScrollProgressProvider>

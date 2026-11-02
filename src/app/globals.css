@@ -362,39 +362,23 @@ html {
 }
 
 .horizon-story__nino {
-  right: -2vw;
-  bottom: -1vh;
-  width: min(560px, 42vw);
-  transform-origin: bottom right;
+  left: -2vw;
+  bottom: -2vh;
+  width: min(460px, 36vw);
+  transform-origin: bottom left;
 }
 
+/* Espejado: el niño mira hacia el contenido, que queda a su derecha. */
 .horizon-story__nino .horizon-story__img {
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
-  mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
+  transform: scaleX(-1);
 }
+
 
 .horizon-story__telescopio {
-  right: 1vw;
-  bottom: -3vh;
-  width: min(600px, 45vw);
+  right: 0;
+  bottom: 0;
+  width: min(640px, 47vw);
   transform-origin: bottom right;
-}
-
-.horizon-story__telescopio .horizon-story__img {
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    #000 10%,
-    #000 88%,
-    transparent 100%
-  );
-  mask-image: linear-gradient(
-    90deg,
-    transparent 0%,
-    #000 10%,
-    #000 88%,
-    transparent 100%
-  );
 }
 
 
@@ -526,7 +510,7 @@ html {
    ============================================================ */
 @media (max-width: 768px) {
   .horizon-story__nino {
-    right: -8vw;
+    left: -8vw;
     bottom: 0;
     width: min(340px, 62vw);
   }
@@ -924,7 +908,7 @@ html {
 }
 
 .btn--primary {
-  background: var(--text-light);
+  background: var(--accent, var(--accent-cyan));
   color: #04101e;
   font-weight: 600;
 }
@@ -932,18 +916,51 @@ html {
 .btn--primary:hover {
   transform: translateY(-2px);
   box-shadow: 0 14px 40px
-    color-mix(in srgb, var(--accent-cyan) 32%, transparent);
+    color-mix(in srgb, var(--accent, var(--accent-cyan)) 42%, transparent);
 }
 
 .btn--ghost {
-  border-color: var(--border-strong);
-  color: var(--text-light);
+  border-color: color-mix(in srgb, var(--accent, var(--accent-cyan)) 60%, transparent);
+  color: color-mix(in srgb, var(--accent, var(--accent-cyan)) 92%, white);
 }
 
 .btn--ghost:hover {
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  border-color: var(--accent, var(--accent-cyan));
+  background: color-mix(in srgb, var(--accent, var(--accent-cyan)) 12%, transparent);
+  color: var(--accent, var(--accent-cyan));
   transform: translateY(-2px);
+}
+
+/* ---------- pie de página ---------- */
+.colophon {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  justify-content: space-between;
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 2rem 2.5rem 2.5rem 6rem;
+  border-top: 1px solid var(--border-subtle);
+  font-family: var(--font-mono-stack);
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text-light) 34%, transparent);
+}
+
+.colophon__line {
+  margin: 0;
+}
+
+.colophon__line a {
+  color: color-mix(in srgb, var(--accent-cyan) 75%, transparent);
+  text-decoration: none;
+}
+
+.colophon__line a:hover {
+  text-decoration: underline;
 }
 
 /* ============================================================
@@ -954,7 +971,9 @@ html {
   flex-direction: column;
   justify-content: center;
   min-height: 100vh;
-  padding-top: 14vh;
+  /* El bloque sube para dejarle la esquina inferior izquierda a la silueta. */
+  padding-top: 6vh;
+  padding-bottom: 20vh;
 }
 
 .hero__copy {
@@ -1236,75 +1255,82 @@ html {
 }
 
 /* ============================================================
-   Oficio — cuatro fases
+   Oficio — fases y stack, cada uno con su acento
    ============================================================ */
 .phases {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 1px;
+  gap: 0.9rem;
   margin: 2.75rem 0 0;
   padding: 0;
   list-style: none;
-  border-top: 1px solid var(--border-subtle);
-  border-bottom: 1px solid var(--border-subtle);
-  background: var(--border-subtle);
 }
 
 .phase {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  padding: 1.75rem 1.5rem 2rem;
-  background: var(--surface-base);
-  transition: background 0.45s ease;
-}
-
-/* Barrido de luz al pasar el puntero: la fase activa se enciende. */
-.phase::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.45s ease;
-  background: linear-gradient(
-    180deg,
-    color-mix(in srgb, var(--accent-cyan) 14%, transparent),
-    transparent 70%
-  );
+  padding: 1.5rem 1.35rem 1.9rem;
+  border: 1px solid color-mix(in srgb, var(--accent, var(--accent-cyan)) 22%, transparent);
+  border-radius: 16px;
+  background:
+    radial-gradient(
+      120% 90% at 0% 0%,
+      color-mix(in srgb, var(--accent, var(--accent-cyan)) 12%, transparent),
+      transparent 62%
+    ),
+    linear-gradient(165deg, var(--surface-raised), var(--surface-base));
+  transition:
+    border-color 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease;
 }
 
 .phase:hover,
 .phase:focus-within {
-  background: color-mix(in srgb, var(--night-surface) 85%, transparent);
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent, var(--accent-cyan)) 60%, transparent);
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--night-deep) 65%, transparent);
 }
 
-.phase:hover::before,
-.phase:focus-within::before {
+/* Hilo de progreso: une las fases y se enciende con el acento de cada una */
+.phase__thread {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2px;
+  background: linear-gradient(
+    90deg,
+    color-mix(in srgb, var(--accent, var(--accent-cyan)) 85%, transparent),
+    color-mix(in srgb, var(--accent, var(--accent-cyan)) 12%, transparent)
+  );
+  opacity: 0.45;
+  transition: opacity 0.45s ease;
+}
+
+.phase:hover .phase__thread {
   opacity: 1;
 }
 
 .phase__step {
   display: block;
   font-family: var(--font-mono-stack);
-  font-size: 28px;
+  font-size: 26px;
   font-weight: 500;
   line-height: 1;
   letter-spacing: -0.02em;
-  color: transparent;
-  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent-cyan) 55%, transparent);
-  transition:
-    color 0.45s ease,
-    -webkit-text-stroke-color 0.45s ease;
+  color: color-mix(in srgb, var(--accent, var(--accent-cyan)) 20%, transparent);
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent, var(--accent-cyan)) 70%, transparent);
+  transition: color 0.45s ease;
 }
 
 .phase:hover .phase__step {
-  color: color-mix(in srgb, var(--accent-cyan) 22%, transparent);
-  -webkit-text-stroke-color: var(--accent-cyan);
+  color: color-mix(in srgb, var(--accent, var(--accent-cyan)) 34%, transparent);
 }
 
 .phase__title {
-  margin: 0.9rem 0 0;
+  margin: 0.85rem 0 0;
   font-family: var(--font-space-grotesk), system-ui, sans-serif;
   font-size: 17px;
   font-weight: 600;
@@ -1313,51 +1339,102 @@ html {
 }
 
 .phase__detail {
-  margin: 0.55rem 0 0;
+  margin: 0.5rem 0 0;
   font-size: 12.5px;
   line-height: 1.65;
   color: color-mix(in srgb, var(--text-light) 62%, transparent);
 }
 
-/* La celda del stack también responde */
+/* ---------- stack ---------- */
+.craft-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.9rem;
+  margin-top: 2rem;
+}
+
 .craft-cell {
   position: relative;
   isolation: isolate;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  padding: 1.5rem 1.4rem 1.7rem;
+  border: 1px solid color-mix(in srgb, var(--accent, var(--accent-cyan)) 20%, transparent);
+  border-radius: 16px;
+  background:
+    radial-gradient(
+      110% 80% at 100% 0%,
+      color-mix(in srgb, var(--accent, var(--accent-cyan)) 10%, transparent),
+      transparent 60%
+    ),
+    linear-gradient(165deg, var(--surface-raised), var(--surface-base));
   transition:
-    background 0.4s ease,
-    transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.craft-cell::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  background: radial-gradient(
-    70% 90% at 20% 0%,
-    color-mix(in srgb, var(--accent-violet) 16%, transparent),
-    transparent 70%
-  );
+    border-color 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.45s ease;
 }
 
 .craft-cell:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
+  border-color: color-mix(in srgb, var(--accent, var(--accent-cyan)) 55%, transparent);
+  box-shadow: 0 18px 44px color-mix(in srgb, var(--night-deep) 65%, transparent);
 }
 
-.craft-cell:hover::after {
-  opacity: 1;
+.craft-cell__icon {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 11px;
+  border: 1px solid color-mix(in srgb, var(--accent, var(--accent-cyan)) 34%, transparent);
+  background: color-mix(in srgb, var(--accent, var(--accent-cyan)) 12%, transparent);
+  color: var(--accent, var(--accent-cyan));
+  transition:
+    background 0.45s ease,
+    transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.craft-cell__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.craft-cell:hover .craft-cell__icon {
+  background: color-mix(in srgb, var(--accent, var(--accent-cyan)) 22%, transparent);
+  transform: scale(1.06);
+}
+
+.craft-cell__title {
+  margin: 0.35rem 0 0;
+  font-family: var(--font-mono-stack);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--accent, var(--accent-cyan));
+}
+
+.craft-cell__detail {
+  margin: 0;
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: color-mix(in srgb, var(--text-light) 72%, transparent);
 }
 
 @media (max-width: 1080px) {
   .phases {
     grid-template-columns: repeat(2, 1fr);
   }
+
+  .craft-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 720px) {
-  .phases {
+  .phases,
+  .craft-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -1401,6 +1478,10 @@ html {
 @media (max-width: 1080px) {
   .chapter {
     padding: 9vh 2rem;
+  }
+
+  .colophon {
+    padding: 2rem;
   }
 
   .chapter + .chapter::before {
@@ -1985,19 +2066,25 @@ html {
   gap: 0.55rem;
   padding: 0.8rem 1.3rem;
   border-radius: 999px;
-  border: 1px solid var(--border-strong);
+  border: 1px solid color-mix(in srgb, var(--accent, var(--accent-cyan)) 34%, transparent);
+  background: color-mix(in srgb, var(--accent, var(--accent-cyan)) 8%, transparent);
   color: var(--text-light);
   font-size: 12.5px;
   letter-spacing: 0.06em;
   text-decoration: none;
   transition:
     border-color 0.3s ease,
+    background 0.3s ease,
     color 0.3s ease,
     transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+.closing__link svg {
+  color: var(--accent, var(--accent-cyan));
+}
+
 .closing__link:hover {
-  border-color: var(--accent-cyan);
-  color: var(--accent-cyan);
+  border-color: var(--accent, var(--accent-cyan));
+  background: color-mix(in srgb, var(--accent, var(--accent-cyan)) 16%, transparent);
   transform: translateY(-2px);
 }

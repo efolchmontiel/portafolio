@@ -4,14 +4,16 @@ import { motion } from "framer-motion";
 import { craftCells } from "@/data/craft";
 import { processPhases } from "@/data/process";
 import { sectionIds } from "@/data/sections";
+import { accentStyle } from "@/lib/accents";
 import { easeOut, revealViewport } from "@/lib/motion";
+import { CraftIcon } from "@/components/ui/CraftIcon";
 
 /**
  * Oficio: cómo trabajo y con qué.
  *
- * Primero las cuatro fases del proceso (análisis, arquitectura, metodología y
- * entrega) y después el stack en seis celdas. Cada fase y cada celda responden
- * al puntero: sin eso la sección se lee como una tabla muerta.
+ * Cada fase y cada celda tiene su propio acento y su propio motivo: la
+ * sección dejó de ser una tabla de hairlines iguales. El color avanza con el
+ * proceso (cian → turquesa → violeta → ámbar) y el stack repite esa paleta.
  */
 export function CraftSection() {
   return (
@@ -44,6 +46,7 @@ export function CraftSection() {
             <motion.li
               key={phase.id}
               className="phase"
+              style={accentStyle(phase.accent)}
               initial={{ y: 22, filter: "blur(6px)" }}
               whileInView={{ filter: "blur(0px)" }}
               viewport={revealViewport}
@@ -58,6 +61,7 @@ export function CraftSection() {
               </span>
               <h3 className="phase__title">{phase.title}</h3>
               <p className="phase__detail">{phase.detail}</p>
+              <span className="phase__thread" aria-hidden />
             </motion.li>
           ))}
         </ol>
@@ -74,20 +78,29 @@ export function CraftSection() {
           para sostener producción.
         </motion.h2>
 
-        <motion.div
-          className="craft-grid"
-          initial={{ y: 24, filter: "blur(6px)" }}
-          whileInView={{ filter: "blur(0px)" }}
-          viewport={revealViewport}
-          transition={{ duration: 0.75, ease: easeOut, delay: 0.1 }}
-        >
-          {craftCells.map((cell) => (
-            <article key={cell.id} className="craft-cell">
+        <div className="craft-grid">
+          {craftCells.map((cell, index) => (
+            <motion.article
+              key={cell.id}
+              className="craft-cell"
+              style={accentStyle(cell.accent)}
+              initial={{ y: 20, filter: "blur(6px)" }}
+              whileInView={{ filter: "blur(0px)" }}
+              viewport={revealViewport}
+              transition={{
+                duration: 0.55,
+                ease: easeOut,
+                delay: 0.05 * index,
+              }}
+            >
+              <span className="craft-cell__icon" aria-hidden>
+                <CraftIcon motif={cell.motif} />
+              </span>
               <h3 className="craft-cell__title">{cell.title}</h3>
               <p className="craft-cell__detail">{cell.detail}</p>
-            </article>
+            </motion.article>
           ))}
-        </motion.div>
+        </div>
       </div>
     </section>
   );

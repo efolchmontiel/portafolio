@@ -4,6 +4,7 @@ import { sectionIds } from "@/data/sections";
 import { motion } from "framer-motion";
 import { profile } from "@/data/profile";
 import { usePointerParallax } from "@/hooks/usePointerParallax";
+import { accentStyle } from "@/lib/accents";
 import { easeOut } from "@/lib/motion";
 
 /**
@@ -66,10 +67,18 @@ export function HeroSection() {
           animate={{ y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.85, duration: 0.8, ease: easeOut }}
         >
-          <a className="btn btn--primary" href={`#${sectionIds.repos}`}>
+          <a
+            className="btn btn--primary"
+            style={accentStyle("cyan")}
+            href={`#${sectionIds.repos}`}
+          >
             {profile.ctaPrimary}
           </a>
-          <a className="btn btn--ghost" href={`#${sectionIds.contact}`}>
+          <a
+            className="btn btn--ghost"
+            style={accentStyle("violet")}
+            href={`#${sectionIds.contact}`}
+          >
             {profile.ctaSecondary}
           </a>
         </motion.div>
