@@ -1,5 +1,6 @@
 "use client";
 
+import { usePointerParallax } from "@/hooks/usePointerParallax";
 import { useReducedMotion } from "@/hooks/useReducedMotion";
 import { useZodiacSign } from "@/hooks/useZodiacSign";
 
@@ -18,9 +19,11 @@ const STAR_BASE_DELAY_MS = 500;
 export function ZodiacLayer() {
   const sign = useZodiacSign();
   const reducedMotion = useReducedMotion();
+  /* El cielo acompaña al puntero: es la interacción más barata del sitio. */
+  const parallaxRef = usePointerParallax<HTMLDivElement>({ strength: 14 });
 
   return (
-    <div className="zodiac" aria-hidden>
+    <div className="zodiac" aria-hidden ref={parallaxRef}>
       <p className="zodiac__label">
         <b>{sign.name}</b>
         <span>{sign.dates}</span>

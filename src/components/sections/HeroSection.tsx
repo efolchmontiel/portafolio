@@ -3,6 +3,7 @@
 import { sectionIds } from "@/data/sections";
 import { motion } from "framer-motion";
 import { profile } from "@/data/profile";
+import { usePointerParallax } from "@/hooks/usePointerParallax";
 import { easeOut } from "@/lib/motion";
 
 /**
@@ -10,6 +11,8 @@ import { easeOut } from "@/lib/motion";
  * metadatos en monoespaciada y dos llamadas a la acción.
  */
 export function HeroSection() {
+  const parallaxRef = usePointerParallax<HTMLDivElement>({ strength: 8 });
+
   return (
     <section id={sectionIds.hero} className="chapter hero">
       <div className="wrap hero__copy">
@@ -22,16 +25,18 @@ export function HeroSection() {
           {profile.name} · {profile.location}
         </motion.p>
 
-        <motion.h1
-          className="display hero__title"
-          initial={{ y: 24, filter: "blur(6px)" }}
-          animate={{ y: 0, filter: "blur(0px)" }}
-          transition={{ delay: 0.3, duration: 0.9, ease: easeOut }}
-        >
-          {profile.headline[0]}
-          <br />
-          <span className="display-outline">{profile.headline[1]}</span>
-        </motion.h1>
+        <div ref={parallaxRef}>
+          <motion.h1
+            className="display hero__title"
+            initial={{ y: 24, filter: "blur(6px)" }}
+            animate={{ y: 0, filter: "blur(0px)" }}
+            transition={{ delay: 0.3, duration: 0.9, ease: easeOut }}
+          >
+            {profile.headline[0]}
+            <br />
+            <span className="display-outline">{profile.headline[1]}</span>
+          </motion.h1>
+        </div>
 
         <motion.p
           className="lede"
