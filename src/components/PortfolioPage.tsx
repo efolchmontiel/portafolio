@@ -6,6 +6,7 @@ import { ScrollProgressProvider } from "@/context/ScrollProgressContext";
 import { ShootingStarProvider } from "@/context/ShootingStarContext";
 import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { SiteNav } from "@/components/SiteNav";
+import { ChapterRail } from "@/components/ChapterRail";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { AboutSection } from "@/components/sections/AboutSection";
 import { TechnologiesSection } from "@/components/sections/TechnologiesSection";
@@ -46,6 +47,7 @@ export function PortfolioPage() {
         <ConstellationsLayer />
         <main ref={mainRef} className="content-layer">
           <SiteNav />
+          <ChapterRail />
           <ScrollAnimations containerRef={mainRef} />
           <HeroSection />
           <AboutSection />

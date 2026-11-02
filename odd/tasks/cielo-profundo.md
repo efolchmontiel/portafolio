@@ -62,6 +62,12 @@ Condiciones: años, empresas, roles y stack salen del CV; no se inventan empresa
 | T5 | Repositorios: panel destacado + marquesina con acento, arte y arrastre | S1, S2, S3 | inline | `feat(projects): panel destacado y marquesina de repositorios` |
 | T6 | Cierre de contacto, limpieza de componentes muertos y docs | S5, S6 | inline | `feat(contact): cierre del feature y créditos de audio` |
 
+## Cortes de entrega
+
+- `93027c9` — retiro de GGA (chore, fuera de alcance del feature).
+- `b0e43fd` — T1: tokens, horizonte luminoso y siluetas.
+- Siguiente corte antes de superar ~400 líneas autoradas por commit.
+
 ## Log
 
 **L1** — "hola bro, estamos en un proyecto de portafolio, pero quiero que te metas un gentle
