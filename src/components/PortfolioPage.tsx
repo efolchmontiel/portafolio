@@ -16,7 +16,7 @@ import { ContactSection } from "@/components/sections/ContactSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
 import { HorizonBand } from "@/components/HorizonBand";
 import { HorizonStoryLayer } from "@/components/HorizonStoryLayer";
-import { ConstellationsLayer } from "@/components/ConstellationsLayer";
+import { ZodiacLayer } from "@/components/ZodiacLayer";
 import { StarsBackdrop } from "@/components/StarsBackdrop";
 import { Meteors } from "@/components/ui/meteors";
 
@@ -44,7 +44,7 @@ export function PortfolioPage() {
         </div>
         <HorizonBand />
         <HorizonStoryLayer />
-        <ConstellationsLayer />
+        <ZodiacLayer />
         <main ref={mainRef} className="content-layer">
           <SiteNav />
           <ChapterRail />

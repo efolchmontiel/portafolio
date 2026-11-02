@@ -7,3 +7,4 @@ export type { NavItem } from "./nav.model";
 export type { Principle } from "./principle.model";
 export type { Project } from "./project.model";
 export type { TechCategory } from "./technology.model";
+export type { StarLink, StarPoint, ZodiacSign } from "./zodiac.model";
