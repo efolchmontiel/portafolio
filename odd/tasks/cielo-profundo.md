@@ -123,3 +123,20 @@ sobre blanco y se convirtieron a alfa real con ImageMagick (`-colorspace Gray -n
 usado como canal alfa sobre relleno negro). Archivos: `assets/imagenes/ninocielo.png` y
 `assets/imagenes/telescopio.png`, 1920×1280 con alfa, sin costura de recorte porque el arco del
 cerro cierra dentro del encuadre. Se eliminó `nino-2.png` (sin referencias en código).
+
+**L7** — Ronda de correcciones tras revisar el sitio renderizado:
+- Trayectoria: seis columnas iguales aplastaban los textos ("2019" se pisaba con "2019—2020").
+  Pasa a recorrido horizontal fijado por scroll (`useScrollDrivenShift`), con línea que se dibuja
+  y parada activa encendida. `body` cambia `overflow-x: hidden` por `clip` porque `hidden` creaba
+  contenedor de scroll y rompía `position: sticky`.
+- Oficio: se recuperan las cuatro fases del proceso (Análisis, Arquitectura, Metodología, Entrega),
+  con contenido del CV, más hover en fases y celdas.
+- Siluetas: el niño miraba hacia afuera en la fase del telescopio. Ambos assets quedan anclados a la
+  derecha y sin espejar, así miran hacia el contenido en las dos fases.
+- Separación entre capítulos: de 16vh a 11vh por lado, más un borde superior que se desvanece.
+- Audio: encendido por defecto mediante arranque silencioso + subida de volumen en el primer gesto.
+  El navegador no permite audio audible sin gesto; esto es el máximo que la plataforma habilita.
+  Se cerró además una carrera del doble montaje de React que dejaba el estado en "no disponible".
+- Se quita la nota al pie de la marquesina.
+- Interacción: parallax de puntero en zodíaco y titular (`usePointerParallax`); el envoltorio es
+  necesario porque framer-motion ya escribe `transform` en el h1.
