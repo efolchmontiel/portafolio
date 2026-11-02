@@ -140,3 +140,14 @@ cerro cierra dentro del encuadre. Se eliminó `nino-2.png` (sin referencias en c
 - Se quita la nota al pie de la marquesina.
 - Interacción: parallax de puntero en zodíaco y titular (`usePointerParallax`); el envoltorio es
   necesario porque framer-motion ya escribe `transform` en el h1.
+
+**L8** — Entrega y ronda de ajustes posteriores:
+- Push de `feature/cielo-profundo` y PR #1 contra `master`.
+- `design/` entra al repositorio (sin duplicar el mp3: la pista vive en `public/audio`).
+- El corte entre el hero y Trayectoria tenía demasiado aire y se leía como texto faltante:
+  hero de 92vh, menos padding inferior y un indicador de scroll al borde derecho.
+- `HorizonRidge`: tres planos de curvas suaves cierran el horizonte. Antes el cielo quedaba
+  pelado entre secciones. Se mantiene bajo (22vh) para que las estrellas sigan visibles.
+- La banda de horizonte interpolaba hacia `transparent`, que en CSS pasa por negro translúcido
+  y deja una banda gris donde termina el degradado: ahora usa el mismo color con alfa decreciente.
+- Las dos siluetas de personajes no se tocaron ni se movieron.
