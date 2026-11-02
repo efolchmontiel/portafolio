@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { getErrorMessage } from "@/lib/errors";
 import { clamp } from "@/lib/validation";
+import { sectionIds } from "@/data/sections";
 
 /** 0 = antes de proyectos, 1 = al final de contacto */
 export function useProjectsContactProgress(): number {
@@ -11,8 +12,8 @@ export function useProjectsContactProgress(): number {
   useEffect(() => {
     const update = () => {
       try {
-        const projects = document.getElementById("projects");
-        const contact = document.getElementById("contact");
+        const projects = document.getElementById(sectionIds.repos);
+        const contact = document.getElementById(sectionIds.contact);
         if (!projects || !contact) {
           setProgress(0);
           return;

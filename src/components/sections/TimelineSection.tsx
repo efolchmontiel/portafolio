@@ -1,5 +1,6 @@
 "use client";
 
+import { sectionIds } from "@/data/sections";
 import { motion } from "framer-motion";
 import { timelineStops } from "@/data/timeline";
 import { easeOut, revealViewport } from "@/lib/motion";
@@ -10,12 +11,12 @@ import { easeOut, revealViewport } from "@/lib/motion";
  */
 export function TimelineSection() {
   return (
-    <section id="trayectoria" className="chapter">
+    <section id={sectionIds.timeline} className="chapter">
       <div className="wrap">
         <motion.p
           className="label"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 16, filter: "blur(6px)" }}
+          whileInView={{ y: 0, filter: "blur(0px)" }}
           viewport={revealViewport}
           transition={{ duration: 0.6, ease: easeOut }}
         >
@@ -24,8 +25,8 @@ export function TimelineSection() {
 
         <motion.h2
           className="display mt-5 text-[clamp(32px,4.4vw,62px)]"
-          initial={{ opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 26, filter: "blur(6px)" }}
+          whileInView={{ y: 0, filter: "blur(0px)" }}
           viewport={revealViewport}
           transition={{ duration: 0.75, ease: easeOut, delay: 0.05 }}
         >
@@ -36,8 +37,8 @@ export function TimelineSection() {
 
         <motion.p
           className="copy"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 20, filter: "blur(6px)" }}
+          whileInView={{ y: 0, filter: "blur(0px)" }}
           viewport={revealViewport}
           transition={{ duration: 0.7, ease: easeOut, delay: 0.1 }}
         >
@@ -53,8 +54,8 @@ export function TimelineSection() {
               className={`timeline__stop${
                 stop.isCurrent ? " timeline__stop--current" : ""
               }`}
-              initial={{ opacity: 0, y: 18 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ y: 18, filter: "blur(6px)" }}
+              whileInView={{ y: 0, filter: "blur(0px)" }}
               viewport={revealViewport}
               transition={{
                 duration: 0.55,

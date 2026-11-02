@@ -594,6 +594,7 @@ html {
   letter-spacing: 0.22em;
   text-transform: uppercase;
   cursor: pointer;
+  padding: 0.2rem 0;
 }
 
 .site-nav__dot {
@@ -737,7 +738,7 @@ html {
   z-index: 55;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 4px;
   transform: translateY(-50%);
 }
 
@@ -745,6 +746,7 @@ html {
   display: flex;
   align-items: center;
   gap: 10px;
+  padding: 5px 0;
   color: color-mix(in srgb, var(--text-light) 38%, transparent);
   font-family: var(--font-mono-stack);
   font-size: 9.5px;
@@ -793,12 +795,26 @@ html {
 }
 
 @media (max-width: 768px) {
-  .site-nav__links {
-    display: none;
+  /*
+    Sin esto, en mobile el rail está oculto y los links también: no queda
+    ninguna forma de navegar. Los links pasan a una fila propia.
+  */
+  .site-nav__inner {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding: 0.9rem 1.25rem;
   }
 
-  .site-nav__inner {
-    padding: 1rem 1.25rem;
+  .site-nav__links {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    gap: 1rem;
+  }
+
+  .site-nav__links button {
+    font-size: 9.5px;
+    letter-spacing: 0.12em;
   }
 }
 
@@ -1594,4 +1610,62 @@ html {
     flex-basis: 290px;
     min-height: 260px;
   }
+}
+
+/* ============================================================
+   Cierre
+   ============================================================ */
+.closing {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 104vh;
+  padding-bottom: 26vh;
+}
+
+.closing__copy {
+  max-width: 760px;
+}
+
+.closing__quote {
+  margin: 2rem 0 0;
+  padding-left: 1.6rem;
+  border-left: 1px solid
+    color-mix(in srgb, var(--accent-violet) 50%, transparent);
+  max-width: 54ch;
+  font-size: 19px;
+  line-height: 1.65;
+  font-weight: 300;
+  color: var(--ink-secondary);
+  text-shadow: 0 1px 14px rgba(2, 6, 23, 0.95);
+}
+
+.closing__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 2.5rem;
+}
+
+.closing__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  padding: 0.8rem 1.3rem;
+  border-radius: 999px;
+  border: 1px solid var(--border-strong);
+  color: var(--text-light);
+  font-size: 12.5px;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition:
+    border-color 0.3s ease,
+    color 0.3s ease,
+    transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.closing__link:hover {
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+  transform: translateY(-2px);
 }

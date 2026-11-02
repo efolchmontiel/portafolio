@@ -1,5 +1,6 @@
 "use client";
 
+import { sectionIds } from "@/data/sections";
 import { motion } from "framer-motion";
 import { profile } from "@/data/profile";
 import { easeOut } from "@/lib/motion";
@@ -10,12 +11,12 @@ import { easeOut } from "@/lib/motion";
  */
 export function HeroSection() {
   return (
-    <section id="hero" className="chapter hero">
+    <section id={sectionIds.hero} className="chapter hero">
       <div className="wrap hero__copy">
         <motion.p
           className="label"
-          initial={{ opacity: 0, y: 12 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 12, filter: "blur(6px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.15, duration: 0.7, ease: easeOut }}
         >
           {profile.name} · {profile.location}
@@ -23,8 +24,8 @@ export function HeroSection() {
 
         <motion.h1
           className="display hero__title"
-          initial={{ opacity: 0, y: 24 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 24, filter: "blur(6px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.3, duration: 0.9, ease: easeOut }}
         >
           {profile.headline[0]}
@@ -34,8 +35,8 @@ export function HeroSection() {
 
         <motion.p
           className="lede"
-          initial={{ opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 18, filter: "blur(6px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.5, duration: 0.8, ease: easeOut }}
         >
           {profile.summary}
@@ -43,8 +44,8 @@ export function HeroSection() {
 
         <motion.dl
           className="hero__meta"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          initial={{ filter: "blur(6px)" }}
+          animate={{ filter: "blur(0px)" }}
           transition={{ delay: 0.7, duration: 0.8 }}
         >
           {profile.meta.map((item) => (
@@ -56,14 +57,14 @@ export function HeroSection() {
 
         <motion.div
           className="hero__cta"
-          initial={{ opacity: 0, y: 14 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ y: 14, filter: "blur(6px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
           transition={{ delay: 0.85, duration: 0.8, ease: easeOut }}
         >
-          <a className="btn btn--primary" href="#repos">
+          <a className="btn btn--primary" href={`#${sectionIds.repos}`}>
             {profile.ctaPrimary}
           </a>
-          <a className="btn btn--ghost" href="#contacto">
+          <a className="btn btn--ghost" href={`#${sectionIds.contact}`}>
             {profile.ctaSecondary}
           </a>
         </motion.div>

@@ -66,7 +66,15 @@ Condiciones: años, empresas, roles y stack salen del CV; no se inventan empresa
 
 - `93027c9` — retiro de GGA (chore, fuera de alcance del feature).
 - `b0e43fd` — T1: tokens, horizonte luminoso y siluetas.
-- Siguiente corte antes de superar ~400 líneas autoradas por commit.
+- `3a1fb6e` — T2: audio ambiente, nav y rail de capítulos.
+- `3eecaff` — T3: zodíaco por scroll y tokens en tres capas.
+- `788bb07` — T4: hero, trayectoria y oficio con contenido del CV.
+- `c0ab8f0` — T5: panel destacado y marquesina de repositorios.
+- T6 — cierre de contacto, constante de anclas, limpieza y docs.
+
+Los cortes quedaron por encima de las ~400 líneas autoradas por commit: la
+mayoría del volumen es CSS de layout, no lógica. Se registra como desvío
+consciente para que la revisión lo considere.
 
 ## Log
 

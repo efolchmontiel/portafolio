@@ -1,13 +1,17 @@
 # Portafolio cinematográfico
 
-Landing interactiva con escena 3D nocturna (React Three Fiber), scroll cinematográfico (GSAP + Lenis) y UI glassmorphism.
+Landing interactiva con escena 3D nocturna (React Three Fiber), cielo con
+signos zodiacales que se revelan con el scroll, música ambiente opcional y una
+marquesina de repositorios que avanza sola, se pausa y se arrastra.
+
+El diseño sale del artboard `design/portafolio-inmersivo/01-deep-sky.html`; los
+tokens están documentados en `design/system.md`.
 
 ## Stack
 
 - Next.js 16 (App Router)
 - React, TypeScript, Tailwind CSS v4
 - Three.js / React Three Fiber / Drei
-- GSAP + ScrollTrigger
 - Framer Motion
 - Scroll nativo + GSAP ScrollTrigger
 
@@ -55,10 +59,6 @@ Abrí [http://localhost:3000](http://localhost:3000).
 - `src/components/sections/` — Hero, About, Technologies, Principles, Projects, Contact, Companies
 - `assets/imagenes/` — PNG de siluetas y logos de empresas
 - `AGENTS.md` — reglas de revisión y convenciones del proyecto
-
-## Accesibilidad
-
-Con `prefers-reduced-motion: reduce` se desactivan meteoros y animaciones de cámara extendidas.
 
 ## Desarrollo
 

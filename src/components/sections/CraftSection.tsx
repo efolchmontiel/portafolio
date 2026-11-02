@@ -1,5 +1,6 @@
 "use client";
 
+import { sectionIds } from "@/data/sections";
 import { motion } from "framer-motion";
 import { craftCells } from "@/data/craft";
 import { easeOut, revealViewport } from "@/lib/motion";
@@ -11,12 +12,12 @@ import { easeOut, revealViewport } from "@/lib/motion";
  */
 export function CraftSection() {
   return (
-    <section id="oficio" className="chapter">
+    <section id={sectionIds.craft} className="chapter">
       <div className="wrap">
         <motion.p
           className="label"
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 16, filter: "blur(6px)" }}
+          whileInView={{ y: 0, filter: "blur(0px)" }}
           viewport={revealViewport}
           transition={{ duration: 0.6, ease: easeOut }}
         >
@@ -25,8 +26,8 @@ export function CraftSection() {
 
         <motion.h2
           className="display mt-5 text-[clamp(32px,4.4vw,62px)]"
-          initial={{ opacity: 0, y: 26 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 26, filter: "blur(6px)" }}
+          whileInView={{ y: 0, filter: "blur(0px)" }}
           viewport={revealViewport}
           transition={{ duration: 0.75, ease: easeOut, delay: 0.05 }}
         >
@@ -37,8 +38,8 @@ export function CraftSection() {
 
         <motion.div
           className="craft-grid"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 24, filter: "blur(6px)" }}
+          whileInView={{ y: 0, filter: "blur(0px)" }}
           viewport={revealViewport}
           transition={{ duration: 0.75, ease: easeOut, delay: 0.1 }}
         >

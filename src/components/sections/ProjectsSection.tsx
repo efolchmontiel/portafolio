@@ -1,5 +1,6 @@
 "use client";
 
+import { sectionIds } from "@/data/sections";
 import type { CSSProperties, PointerEvent as ReactPointerEvent } from "react";
 import { motion } from "framer-motion";
 import { featuredRepo, marqueeRepos } from "@/data/projects";
@@ -108,14 +109,14 @@ export function ProjectsSection() {
     : "Pausar el desplazamiento automático";
 
   return (
-    <section id="repos" className="chapter repos">
+    <section id={sectionIds.repos} className="chapter repos">
       <div className="wrap">
         <div className="repos__head">
           <div>
             <motion.p
               className="label"
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ y: 16, filter: "blur(6px)" }}
+              whileInView={{ y: 0, filter: "blur(0px)" }}
               viewport={revealViewport}
               transition={{ duration: 0.6, ease: easeOut }}
             >
@@ -123,8 +124,8 @@ export function ProjectsSection() {
             </motion.p>
             <motion.h2
               className="display mt-5 text-[clamp(32px,4.4vw,62px)]"
-              initial={{ opacity: 0, y: 26 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ y: 26, filter: "blur(6px)" }}
+              whileInView={{ y: 0, filter: "blur(0px)" }}
               viewport={revealViewport}
               transition={{ duration: 0.75, ease: easeOut, delay: 0.05 }}
             >
@@ -136,8 +137,8 @@ export function ProjectsSection() {
 
           <motion.p
             className="repos__legend"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
+            initial={{ filter: "blur(6px)" }}
+            whileInView={{ filter: "blur(0px)" }}
             viewport={revealViewport}
             transition={{ duration: 0.6, ease: easeOut, delay: 0.1 }}
           >
@@ -149,8 +150,8 @@ export function ProjectsSection() {
 
         <motion.article
           className="feature"
-          initial={{ opacity: 0, y: 24 }}
-          whileInView={{ opacity: 1, y: 0 }}
+          initial={{ y: 24, filter: "blur(6px)" }}
+          whileInView={{ y: 0, filter: "blur(0px)" }}
           viewport={revealViewport}
           transition={{ duration: 0.8, ease: easeOut }}
         >
