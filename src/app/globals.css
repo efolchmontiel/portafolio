@@ -386,6 +386,11 @@ html {
   transform-origin: bottom left;
 }
 
+/* Mismo tratamiento que la primera fase: espejada y pegada a la izquierda. */
+.horizon-story__pets .horizon-story__img {
+  transform: scaleX(-1);
+}
+
 
 /* ============================================================
    Zodíaco — doce signos revelados por scroll
