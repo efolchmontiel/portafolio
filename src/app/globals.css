@@ -1,12 +1,36 @@
 @import "tailwindcss";
 
+/* ============================================================
+   Tokens — fuente de verdad del sistema (ver design/system.md)
+   ============================================================ */
 :root {
+  /* Cielo nocturno */
   --night-deep: #020617;
   --night-mid: #0f172a;
   --night-slate: #1e293b;
+  --night-surface: #060d1c;
+  --night-surface-high: #0b1526;
+
+  /* Acentos */
   --accent-cyan: #38bdf8;
   --accent-violet: #a78bfa;
+  --accent-teal: #22d3ee;
+  --accent-amber: #fbbf24;
+
+  /* Texto */
   --text-light: #f8fafc;
+
+  /* Superficies y bordes */
+  --border-subtle: color-mix(in srgb, white 11%, transparent);
+  --border-strong: color-mix(in srgb, white 18%, transparent);
+
+  /* Horizonte luminoso: lo que hace legible la silueta */
+  --horizon-core: #1e5c7d;
+  --horizon-mid: #17415f;
+  --horizon-far: #0e2a45;
+  --horizon-fade: #08182d;
+
+  /* Semánticos */
   --background: var(--night-deep);
   --foreground: var(--text-light);
 }
@@ -17,24 +41,299 @@
   --color-night-deep: var(--night-deep);
   --color-night-mid: var(--night-mid);
   --color-night-slate: var(--night-slate);
+  --color-night-surface: var(--night-surface);
+  --color-night-surface-high: var(--night-surface-high);
   --color-accent-cyan: var(--accent-cyan);
   --color-accent-violet: var(--accent-violet);
+  --color-accent-teal: var(--accent-teal);
+  --color-accent-amber: var(--accent-amber);
   --color-text-light: var(--text-light);
+
   --font-sans: var(--font-inter);
   --font-display: var(--font-space-grotesk);
+  --font-mono: var(--font-mono-stack);
+
+  --animate-meteor-effect: meteor 5s linear infinite;
+
+  @keyframes meteor {
+    0% {
+      translate: 0 0;
+      rotate: 180deg;
+      opacity: 0;
+    }
+    12% {
+      opacity: 1;
+    }
+    25% {
+      translate: 20vw 1.75vh;
+      rotate: 186deg;
+    }
+    50% {
+      translate: 40vw 7vh;
+      rotate: 192deg;
+    }
+    75% {
+      translate: 60vw 15.75vh;
+      rotate: 198deg;
+    }
+    100% {
+      translate: 80vw 28vh;
+      rotate: 204deg;
+      opacity: 0;
+    }
+  }
 }
 
+:root {
+  --font-mono-stack: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+    monospace;
+}
+
+/* ============================================================
+   Base
+   ============================================================ */
 html {
   scroll-behavior: smooth;
   overflow-y: scroll;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
+body {
+  background: var(--night-deep);
+  color: var(--text-light);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  overflow-x: hidden;
+  min-height: 100%;
+  -webkit-font-smoothing: antialiased;
 }
 
+::selection {
+  background: color-mix(in srgb, var(--accent-cyan) 35%, transparent);
+  color: var(--text-light);
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent-cyan);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
+
+/* ============================================================
+   Tipografía
+   ============================================================ */
+.section-title {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  letter-spacing: -0.035em;
+  line-height: 0.96;
+}
+
+/* Etiqueta monoespaciada de capítulo / eyebrow */
+.label {
+  font-family: var(--font-mono-stack);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--accent-cyan);
+}
+
+.label-muted {
+  font-family: var(--font-mono-stack);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text-light) 40%, transparent);
+}
+
+/* Titular de display con peso de póster */
+.display {
+  font-family: var(--font-space-grotesk), system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 0.9;
+}
+
+/* Segunda línea en contorno: recurso de póster del artboard */
+.display-outline {
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--text-light) 52%, transparent);
+}
+
+/* ============================================================
+   Superficies
+   ============================================================ */
+.glass-panel {
+  background: color-mix(in srgb, var(--night-slate) 45%, transparent);
+  backdrop-filter: blur(20px);
+  border: 1px solid color-mix(in srgb, white 12%, transparent);
+  box-shadow:
+    0 0 40px color-mix(in srgb, var(--accent-cyan) 8%, transparent),
+    inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
+}
+
+/* Panel opaco de contenido — el que va sobre las siluetas */
+.panel {
+  background: linear-gradient(
+    165deg,
+    var(--night-surface-high) 0%,
+    var(--night-surface) 100%
+  );
+  border: 1px solid var(--border-subtle);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--night-deep) 60%, transparent);
+}
+
+.glow-cyan {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-cyan) 45%, transparent);
+}
+
+.glow-violet {
+  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-violet) 45%, transparent);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-radius: 999px;
+  border: 1px solid color-mix(in srgb, var(--accent-cyan) 25%, transparent);
+  background: color-mix(in srgb, var(--night-mid) 50%, transparent);
+  padding: 0.25rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--accent-cyan);
+}
+
+.chip-mono {
+  font-family: var(--font-mono-stack);
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 5px;
+}
+
+/* ============================================================
+   Capas del cielo
+   ============================================================ */
+.canvas-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: var(--night-deep);
+}
+
+/* Viñeta de respaldo si falla el post-procesado WebGL */
+.canvas-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 85% 75% at 50% 45%,
+    transparent 38%,
+    rgba(2, 6, 23, 0.45) 100%
+  );
+}
+
+/*
+  Banda de horizonte luminosa.
+  Sin esto la silueta negra sobre --night-deep da 1.05:1 y desaparece.
+*/
+.horizon-band {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 38vh;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(
+    78% 130% at 64% 100%,
+    var(--horizon-core) 0%,
+    var(--horizon-mid) 22%,
+    var(--horizon-far) 44%,
+    var(--horizon-fade) 66%,
+    transparent 88%
+  );
+}
+
+/* Cierre inferior: funde la base con el fondo de la página */
+.horizon-band::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 7vh;
+  background: linear-gradient(180deg, transparent, #01040d 88%);
+}
+
+.content-layer {
+  position: relative;
+  z-index: 10;
+  overflow: visible;
+}
+
+/* ============================================================
+   Siluetas — rim light + máscara para ocultar el borde del asset
+   ============================================================ */
+.horizon-story {
+  overflow: visible;
+  line-height: 0;
+  pointer-events: none;
+}
+
+.horizon-story__slot {
+  position: fixed;
+  transition: opacity 0.9s ease-in-out;
+}
+
+.horizon-story__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  /* Rim light: 1px de cian + halo violeta corto. Sin esto el borde muere. */
+  filter: drop-shadow(0 0 1px rgba(170, 224, 255, 0.5))
+    drop-shadow(0 0 5px rgba(150, 150, 255, 0.16));
+}
+
+.horizon-story__nino {
+  right: -2vw;
+  bottom: -1vh;
+  width: min(560px, 42vw);
+  transform-origin: bottom right;
+}
+
+.horizon-story__nino .horizon-story__img {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
+  mask-image: linear-gradient(90deg, transparent 0%, #000 14%);
+}
+
+.horizon-story__telescopio {
+  left: -4vw;
+  bottom: -3vh;
+  width: min(600px, 45vw);
+  transform-origin: bottom left;
+}
+
+.horizon-story__telescopio .horizon-story__img {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 10%,
+    #000 88%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    #000 10%,
+    #000 88%,
+    transparent 100%
+  );
+}
+
+/* ============================================================
+   Movimiento
+   ============================================================ */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -49,73 +348,30 @@ html {
   }
 }
 
-body {
-  background: var(--night-deep);
-  color: var(--text-light);
-  font-family: var(--font-inter), system-ui, sans-serif;
-  overflow-x: hidden;
-  min-height: 100%;
+/* ============================================================
+   Responsive
+   ============================================================ */
+@media (max-width: 768px) {
+  .horizon-story__nino {
+    right: -8vw;
+    bottom: 0;
+    width: min(340px, 62vw);
+  }
+
+  .horizon-story__telescopio {
+    left: -10vw;
+    bottom: 0;
+    width: min(400px, 76vw);
+  }
+
+  .horizon-band {
+    height: 30vh;
+  }
 }
 
-.site-nav > div {
-  background: transparent;
-  backdrop-filter: none;
-  border-bottom: none;
-}
-
-.site-nav button {
-  text-shadow: 0 1px 12px rgba(2, 6, 23, 0.95);
-}
-
-::selection {
-  background: color-mix(in srgb, var(--accent-cyan) 35%, transparent);
-  color: var(--text-light);
-}
-
-.glass-panel {
-  background: color-mix(in srgb, var(--night-slate) 45%, transparent);
-  backdrop-filter: blur(20px);
-  border: 1px solid color-mix(in srgb, white 12%, transparent);
-  box-shadow:
-    0 0 40px color-mix(in srgb, var(--accent-cyan) 8%, transparent),
-    inset 0 1px 0 color-mix(in srgb, white 8%, transparent);
-}
-
-.glow-cyan {
-  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-cyan) 45%, transparent);
-}
-
-.glow-violet {
-  box-shadow: 0 0 24px color-mix(in srgb, var(--accent-violet) 45%, transparent);
-}
-
-.section-title {
-  font-family: var(--font-space-grotesk), system-ui, sans-serif;
-  letter-spacing: -0.02em;
-}
-
-.canvas-layer {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background: var(--night-deep);
-}
-
-/* Viñeta si falla el post-procesado WebGL */
-.canvas-layer::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: radial-gradient(
-    ellipse 85% 75% at 50% 45%,
-    transparent 38%,
-    rgba(2, 6, 23, 0.45) 100%
-  );
-}
-
-/* Estrellas de respaldo (visibles en todo el scroll) */
+/* ============================================================
+   Transicional — se reemplaza en T2 (nav) y T3 (campo de estrellas)
+   ============================================================ */
 .stars-backdrop {
   background-image:
     radial-gradient(1px 1px at 10% 15%, rgba(248, 250, 252, 0.5), transparent),
@@ -130,88 +386,20 @@ body {
     radial-gradient(1px 1px at 60% 48%, rgba(203, 213, 225, 0.4), transparent),
     radial-gradient(1px 1px at 78% 52%, rgba(248, 250, 252, 0.4), transparent),
     radial-gradient(1px 1px at 88% 62%, rgba(203, 213, 225, 0.45), transparent),
-    radial-gradient(1.2px 1.2px at 48% 38%, rgba(248, 250, 252, 0.55), transparent),
-    radial-gradient(1px 1px at 22% 72%, rgba(203, 213, 225, 0.35), transparent),
-    radial-gradient(1px 1px at 72% 78%, rgba(248, 250, 252, 0.4), transparent);
+    radial-gradient(1.2px 1.2px at 48% 38%, rgba(248, 250, 252, 0.55), transparent);
   background-size: 100% 100%;
 }
 
-.content-layer {
-  position: relative;
-  z-index: 10;
-  overflow: visible;
+.site-nav > div {
+  background: transparent;
+  backdrop-filter: none;
+  border-bottom: none;
 }
 
-/* Cerro negro a ancho completo (suelo bajo siluetas) */
-.horizon-ground {
-  position: fixed;
-  z-index: 5;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  height: min(32vh, 260px);
-  background: #000;
-  clip-path: polygon(
-    0% 100%,
-    0% 38%,
-    32% 14%,
-    58% 22%,
-    100% 32%,
-    100% 100%
-  );
-  box-shadow: 0 -1px 0 #000;
+.site-nav button {
+  text-shadow: 0 1px 12px rgba(2, 6, 23, 0.95);
 }
 
-/* Narrativa dual — ancla independiente por silueta */
-.horizon-story {
-  overflow: visible;
-  line-height: 0;
-  pointer-events: none;
-}
-
-.horizon-story__slot {
-  position: fixed;
-  transition: opacity 0.65s ease-in-out;
-  max-height: min(52vh, calc(100dvh - 120px));
-}
-
-.horizon-story__nino {
-  left: -4%;
-  bottom: 11%;
-  width: min(300px, 40vw);
-}
-
-.horizon-story__telescopio {
-  /* Desktop calibrado: left ≈ -116.809px @ ~1440px → ~-8.1vw */
-  left: clamp(-140px, -8.1vw, -52px);
-  bottom: 5%;
-  width: min(540px, 64vw);
-}
-
-.horizon-story__img {
-  display: block;
-  width: 100%;
-  height: auto;
-  max-height: min(52vh, calc(100dvh - 120px));
-  object-fit: contain;
-  object-position: left bottom;
-}
-
-@media (max-width: 768px) {
-  .horizon-story__nino {
-    left: 31%;
-    bottom: 20%;
-    width: min(240px, 52vw);
-  }
-
-  .horizon-story__telescopio {
-    left: clamp(-55px, 29vw, 109px);
-    bottom: 14%;
-    width: min(100vw, 480px);
-  }
-
-  .horizon-story__slot,
-  .horizon-story__img {
-    max-height: min(46vh, calc(100dvh - 100px));
-  }
+.meteor-spark {
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--text-light) 6%, transparent);
 }

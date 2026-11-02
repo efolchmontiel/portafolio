@@ -13,10 +13,11 @@ import { PrinciplesSection } from "@/components/sections/PrinciplesSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { CompaniesSection } from "@/components/sections/CompaniesSection";
-import { HorizonGroundLayer } from "@/components/HorizonGroundLayer";
+import { HorizonBand } from "@/components/HorizonBand";
 import { HorizonStoryLayer } from "@/components/HorizonStoryLayer";
 import { ConstellationsLayer } from "@/components/ConstellationsLayer";
 import { StarsBackdrop } from "@/components/StarsBackdrop";
+import { Meteors } from "@/components/ui/meteors";
 
 const NightScene = dynamic(
   () =>
@@ -34,7 +35,13 @@ export function PortfolioPage() {
       <ShootingStarProvider>
         <NightScene />
         <StarsBackdrop />
-        <HorizonGroundLayer />
+        <div
+          className="pointer-events-none fixed inset-0 z-[2] overflow-hidden"
+          aria-hidden
+        >
+          <Meteors number={20} />
+        </div>
+        <HorizonBand />
         <HorizonStoryLayer />
         <ConstellationsLayer />
         <main ref={mainRef} className="content-layer">
