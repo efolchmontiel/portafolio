@@ -943,26 +943,6 @@ html {
   padding: 11vh 2.5rem 11vh 6rem;
 }
 
-/*
-  Un capítulo no arranca de la nada: el borde superior se desvanece en los
-  extremos para que la costura se lea como continuación, no como corte.
-*/
-.chapter + .chapter::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 6rem;
-  right: 2.5rem;
-  height: 1px;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    color-mix(in srgb, var(--accent-cyan) 16%, transparent) 18%,
-    color-mix(in srgb, white 10%, transparent) 50%,
-    color-mix(in srgb, var(--accent-violet) 14%, transparent) 82%,
-    transparent
-  );
-}
 
 .wrap {
   max-width: 1180px;
@@ -1629,11 +1609,6 @@ html {
 
   .colophon {
     padding: 2rem;
-  }
-
-  .chapter + .chapter::before {
-    left: 2rem;
-    right: 2rem;
   }
 
   .timeline {
