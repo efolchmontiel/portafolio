@@ -11,6 +11,7 @@ import { CraftSection } from "@/components/sections/CraftSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { HorizonBand } from "@/components/HorizonBand";
+import { HorizonRidge } from "@/components/HorizonRidge";
 import { HorizonStoryLayer } from "@/components/HorizonStoryLayer";
 import { ZodiacLayer } from "@/components/ZodiacLayer";
 import { StarsBackdrop } from "@/components/StarsBackdrop";
@@ -44,6 +45,7 @@ export function PortfolioPage() {
           <Meteors number={20} />
         </div>
         <HorizonBand />
+        <HorizonRidge />
         <HorizonStoryLayer />
         <ZodiacLayer />
 

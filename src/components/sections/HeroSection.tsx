@@ -82,6 +82,17 @@ export function HeroSection() {
             {profile.ctaSecondary}
           </a>
         </motion.div>
+
+        <motion.p
+          className="hero__scroll"
+          initial={{ filter: "blur(6px)" }}
+          animate={{ filter: "blur(0px)" }}
+          transition={{ delay: 1, duration: 0.8, ease: easeOut }}
+          aria-hidden
+        >
+          <i />
+          Seguí bajando
+        </motion.p>
       </div>
     </section>
   );

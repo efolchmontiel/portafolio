@@ -311,13 +311,19 @@ html {
   height: 38vh;
   z-index: 2;
   pointer-events: none;
+  /*
+    Los stops finales usan el mismo color con alfa 0 en vez de `transparent`:
+    interpolar hacia `transparent` pasa por negro translúcido y deja una banda
+    gris visible donde termina el degradado.
+  */
   background: radial-gradient(
-    78% 130% at 64% 100%,
+    92% 150% at 64% 100%,
     var(--horizon-core) 0%,
-    var(--horizon-mid) 22%,
-    var(--horizon-far) 44%,
-    var(--horizon-fade) 66%,
-    transparent 88%
+    var(--horizon-mid) 20%,
+    var(--horizon-far) 40%,
+    color-mix(in srgb, var(--horizon-fade) 82%, transparent) 58%,
+    color-mix(in srgb, var(--horizon-fade) 38%, transparent) 74%,
+    color-mix(in srgb, var(--horizon-fade) 0%, transparent) 92%
   );
 }
 
@@ -336,6 +342,39 @@ html {
   position: relative;
   z-index: 10;
   overflow: visible;
+}
+
+/* ============================================================
+   Cordillera de fondo
+   ============================================================ */
+.ridge {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 4;
+  height: min(22vh, 180px);
+  pointer-events: none;
+}
+
+.ridge svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ridge__far {
+  fill: color-mix(in srgb, var(--sky-ink) 88%, var(--horizon-far));
+  opacity: 0.42;
+}
+
+.ridge__mid {
+  fill: color-mix(in srgb, var(--sky-ink) 95%, var(--horizon-far));
+  opacity: 0.7;
+}
+
+.ridge__near {
+  fill: var(--sky-ink);
 }
 
 /* ============================================================
@@ -972,13 +1011,19 @@ html {
    Hero
    ============================================================ */
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100vh;
+  min-height: 92vh;
   /* El bloque sube para dejarle la esquina inferior izquierda a la silueta. */
   padding-top: 6vh;
-  padding-bottom: 20vh;
+  padding-bottom: 6vh;
+}
+
+/* El primer capítulo arranca cerca del hero: no hay hueco que rellenar. */
+.hero + .timeline-section {
+  padding-top: 4vh;
 }
 
 .hero__copy {
@@ -1018,6 +1063,45 @@ html {
   flex-wrap: wrap;
   gap: 0.9rem;
   margin-top: 2.75rem;
+}
+
+/*
+  Cierre del hero: da intención al aire que queda antes del primer capítulo
+  en vez de dejar un hueco vacío.
+*/
+.hero__scroll {
+  position: absolute;
+  right: 2.5rem;
+  bottom: 8vh;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  font-family: var(--font-mono-stack);
+  font-size: 9.5px;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: color-mix(in srgb, var(--text-light) 42%, transparent);
+}
+
+.hero__scroll i {
+  display: block;
+  width: 1px;
+  height: 46px;
+  background: linear-gradient(180deg, var(--accent-cyan), transparent);
+  animation: hero-scroll-pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes hero-scroll-pulse {
+  0%,
+  100% {
+    opacity: 0.35;
+    transform: scaleY(0.7);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
 }
 
 /*
