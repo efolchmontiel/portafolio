@@ -6,9 +6,9 @@ import { getErrorMessage } from "@/lib/errors";
 import { clamp } from "@/lib/validation";
 
 type AmbientAudioState = {
-  /** Verdadero solo cuando el volumen es audible. */
+  /** Verdadero solo cuando suena y se oye: ni pausado, ni silenciado. */
   readonly isPlaying: boolean;
-  /** Verdadero mientras suena en silencio esperando el primer gesto. */
+  /** Suena en silencio, esperando el gesto que levanta el mute. */
   readonly isPrimed: boolean;
   readonly isAvailable: boolean;
   readonly toggle: () => void;
@@ -50,102 +50,127 @@ function fadeVolume(
 /**
  * Música ambiente encendida por defecto.
  *
- * Ningún navegador deja sonar audio con volumen sin un gesto previo, así que
- * el arranque real es: reproducción **en silencio** apenas carga la página y
- * subida de volumen en el primer gesto (scroll, clic o tecla). Si el navegador
- * tampoco permite el arranque silencioso, queda a la espera del botón.
+ * La regla del navegador: sin un gesto previo no se puede sonar con volumen,
+ * pero sí en silencio. Así que arranca muteada y el primer gesto levanta el
+ * mute.
  *
- * Un pausa explícita del usuario gana: después de eso no vuelve sola.
+ * El estado **se deriva del elemento** (`paused`, `muted`, `volume`) y se
+ * sincroniza con sus eventos. Deducirlo por dentro es lo que hacía que la
+ * interfaz dijera "Sonando" con el audio en silencio.
  */
-export function useAmbientAudio(): AmbientAudioState {
+export function useAmbientAudio(): AmbientAudioState & {
+  audioRef: React.RefObject<HTMLAudioElement | null>;
+} {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const frameRef = useRef<number | null>(null);
   const userPausedRef = useRef(false);
-  const primedRef = useRef(false);
-  const playingRef = useRef(false);
 
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPrimed, setIsPrimed] = useState(false);
   const [isAvailable, setIsAvailable] = useState(true);
 
-  const startAudible = useCallback(() => {
+  /** Lee el elemento y refleja lo que realmente está pasando. */
+  const syncState = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    const running = !audio.paused;
+    const audible = running && !audio.muted && audio.volume > 0.001;
+    setIsPlaying(audible);
+    setIsPrimed(running && !audible);
+  }, []);
+
+  /*
+    Arranque silencioso: permitido sin gesto en todos los navegadores actuales.
+    Se reintenta porque el primer `play()` puede quedar interrumpido por el
+    desmontaje doble de React en desarrollo; un solo intento no alcanza.
+  */
+  useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
 
-    audio.muted = false;
-    const played = audio.play();
-    if (played) {
-      played.catch((error: unknown) => {
-        setIsAvailable(false);
-        setIsPlaying(false);
-        console.error(
-          getErrorMessage(error, "No se pudo reproducir la música ambiente"),
-        );
-      });
-    }
-    fadeVolume(audio, ambientAudio.targetVolume, ambientAudio.fadeInMs, frameRef);
-    playingRef.current = true;
-    setIsPlaying(true);
-    setIsPrimed(false);
-  }, []);
-
-  /* Arranque silencioso: permitido sin gesto en todos los navegadores actuales. */
-  useEffect(() => {
-    /*
-      React monta dos veces en desarrollo. Sin esta bandera, el rechazo del
-      primer `play()` (interrumpido por el `pause()` del cleanup) llegaba
-      después del segundo montaje y dejaba el estado en "no disponible".
-    */
-    let cancelled = false;
-
-    const audio = new Audio(ambientAudio.src);
-    audio.loop = true;
-    audio.preload = "auto";
     audio.volume = 0;
     audio.muted = true;
-    audioRef.current = audio;
 
-    const played = audio.play();
-    if (played) {
-      played
-        .then(() => {
-          if (cancelled || audioRef.current !== audio) return;
-          primedRef.current = true;
-          setIsPrimed(true);
-        })
-        .catch(() => {
-          if (cancelled || audioRef.current !== audio) return;
-          /* Sin autoplay silencioso: queda a la espera del botón. */
-          primedRef.current = false;
-          setIsPrimed(false);
+    const events = ["playing", "pause", "volumechange", "emptied"] as const;
+    events.forEach((event) => audio.addEventListener(event, syncState));
+
+    let attempt = 0;
+    const timers: number[] = [];
+
+    const prime = () => {
+      if (attempt >= 4) return;
+      attempt += 1;
+      if (userPausedRef.current || !audio.paused) {
+        syncState();
+        return;
+      }
+      audio.muted = true;
+      const played = audio.play();
+      if (played) {
+        played.catch(() => {
+          timers.push(window.setTimeout(prime, 250 * attempt));
         });
-    }
+      }
+    };
+
+    prime();
+    syncState();
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible" && audio.paused) prime();
+    };
+    document.addEventListener("visibilitychange", onVisible);
 
     return () => {
-      cancelled = true;
+      document.removeEventListener("visibilitychange", onVisible);
+      timers.forEach((timer) => window.clearTimeout(timer));
+      events.forEach((event) => audio.removeEventListener(event, syncState));
       audio.pause();
-      audioRef.current = null;
       if (frameRef.current !== null) {
         cancelAnimationFrame(frameRef.current);
         frameRef.current = null;
       }
     };
-  }, []);
+  }, [syncState]);
+
+  /** Deja el audio audible: quita el mute, asegura reproducción y sube volumen. */
+  const startAudible = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    audio.muted = false;
+    audio.defaultMuted = false;
+
+    const played = audio.play();
+    if (played) {
+      played.catch((error: unknown) => {
+        setIsAvailable(false);
+        console.error(
+          getErrorMessage(error, "No se pudo reproducir la música ambiente"),
+        );
+        syncState();
+      });
+    }
+
+    fadeVolume(audio, ambientAudio.targetVolume, ambientAudio.fadeInMs, frameRef);
+    syncState();
+  }, [syncState]);
 
   /*
-    Primer gesto: se levanta el silencio.
-    No depende de que el arranque silencioso haya terminado —el buffer puede
-    tardar más que el gesto— porque el gesto por sí solo ya habilita el audio.
+    Primer gesto: se levanta el silencio. No depende de que el arranque
+    silencioso haya terminado —el buffer puede tardar más que el gesto—
+    porque el gesto por sí solo ya habilita el audio.
   */
   useEffect(() => {
     const onFirstGesture = () => {
-      if (userPausedRef.current || playingRef.current) return;
-      primedRef.current = false;
+      if (userPausedRef.current) return;
+      const audio = audioRef.current;
+      if (!audio || !audio.muted) return;
       startAudible();
     };
 
     ACTIVATION_EVENTS.forEach((event) =>
-      window.addEventListener(event, onFirstGesture, { once: true, passive: true }),
+      window.addEventListener(event, onFirstGesture, { passive: true }),
     );
 
     return () => {
@@ -159,18 +184,20 @@ export function useAmbientAudio(): AmbientAudioState {
     const audio = audioRef.current;
     if (!audio) return;
 
-    if (isPlaying) {
+    /* Se decide por el elemento, no por el estado del render. */
+    const isAudible = !audio.paused && !audio.muted && audio.volume > 0.001;
+
+    if (isAudible) {
       userPausedRef.current = true;
       fadeVolume(audio, 0, ambientAudio.fadeOutMs, frameRef);
       window.setTimeout(() => audio.pause(), ambientAudio.fadeOutMs);
-      playingRef.current = false;
-      setIsPlaying(false);
+      syncState();
       return;
     }
 
     userPausedRef.current = false;
     startAudible();
-  }, [isPlaying, startAudible]);
+  }, [startAudible, syncState]);
 
-  return { isPlaying, isPrimed, isAvailable, toggle };
+  return { isPlaying, isPrimed, isAvailable, toggle, audioRef };
 }

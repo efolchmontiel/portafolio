@@ -1,6 +1,7 @@
 "use client";
 
 import { useAmbientAudio } from "@/hooks/useAmbientAudio";
+import { ambientAudio } from "@/config/audio";
 
 const BAR_COUNT = 4;
 
@@ -11,7 +12,8 @@ const BAR_COUNT = 4;
  * (CC BY 4.0) lo exige y es más honesto que esconderlo en un pie.
  */
 export function AmbientAudio() {
-  const { isPlaying, isPrimed, isAvailable, toggle } = useAmbientAudio();
+  const { isPlaying, isPrimed, isAvailable, toggle, audioRef } =
+    useAmbientAudio();
 
   const label = !isAvailable
     ? "Audio no disponible"
@@ -23,6 +25,11 @@ export function AmbientAudio() {
 
   return (
     <div className="site-audio">
+      {/*
+        El elemento vive en el DOM: así su estado real (paused, muted, volume)
+        es inspeccionable y el hook lo lee en vez de deducirlo.
+      */}
+      <audio ref={audioRef} src={ambientAudio.src} loop preload="metadata" />
       <button
         type="button"
         onClick={toggle}
