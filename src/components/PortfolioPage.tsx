@@ -1,19 +1,15 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRef } from "react";
 import { ScrollProgressProvider } from "@/context/ScrollProgressContext";
 import { ShootingStarProvider } from "@/context/ShootingStarContext";
-import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { SiteNav } from "@/components/SiteNav";
 import { ChapterRail } from "@/components/ChapterRail";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { TechnologiesSection } from "@/components/sections/TechnologiesSection";
-import { PrinciplesSection } from "@/components/sections/PrinciplesSection";
+import { TimelineSection } from "@/components/sections/TimelineSection";
+import { CraftSection } from "@/components/sections/CraftSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
-import { CompaniesSection } from "@/components/sections/CompaniesSection";
 import { HorizonBand } from "@/components/HorizonBand";
 import { HorizonStoryLayer } from "@/components/HorizonStoryLayer";
 import { ZodiacLayer } from "@/components/ZodiacLayer";
@@ -28,9 +24,13 @@ const NightScene = dynamic(
   { ssr: false },
 );
 
+/**
+ * Composición de capas del sitio.
+ *
+ * z0 canvas 3D · z1 estrellas de respaldo · z2 meteoros · z3 zodíaco ·
+ * z2 banda de horizonte · z7 siluetas · z10 contenido · z55/60 navegación.
+ */
 export function PortfolioPage() {
-  const mainRef = useRef<HTMLElement>(null);
-
   return (
     <ScrollProgressProvider>
       <ShootingStarProvider>
@@ -45,17 +45,15 @@ export function PortfolioPage() {
         <HorizonBand />
         <HorizonStoryLayer />
         <ZodiacLayer />
-        <main ref={mainRef} className="content-layer">
+
+        <main className="content-layer">
           <SiteNav />
           <ChapterRail />
-          <ScrollAnimations containerRef={mainRef} />
           <HeroSection />
-          <AboutSection />
-          <TechnologiesSection />
-          <PrinciplesSection />
+          <TimelineSection />
+          <CraftSection />
           <ProjectsSection />
           <ContactSection />
-          <CompaniesSection />
         </main>
       </ShootingStarProvider>
     </ScrollProgressProvider>

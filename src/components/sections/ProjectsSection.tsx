@@ -7,7 +7,7 @@ import { projects } from "@/data/projects";
 export function ProjectsSection() {
   return (
     <SectionShell
-      id="projects"
+      id="repos"
       title="Proyectos destacados"
       subtitle="Featured"
       className="projects-section"

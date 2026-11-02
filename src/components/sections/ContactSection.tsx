@@ -74,7 +74,7 @@ const contactLinks = buildContactLinks();
 export function ContactSection() {
   return (
     <SectionShell
-      id="contact"
+      id="contacto"
       title="Contacto"
       subtitle="Conectemos"
       className="pb-24"
