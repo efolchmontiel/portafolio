@@ -380,15 +380,10 @@ html {
   primera para que el cambio se lea como el mismo lugar, no como otro tamaño.
 */
 .horizon-story__pets {
-  left: -2vw;
+  right: -2vw;
   bottom: -6vh;
   height: min(340px, 32vh);
-  transform-origin: bottom left;
-}
-
-/* Mismo tratamiento que la primera fase: espejada y pegada a la izquierda. */
-.horizon-story__pets .horizon-story__img {
-  transform: scaleX(-1);
+  transform-origin: bottom right;
 }
 
 
@@ -519,9 +514,14 @@ html {
    Responsive
    ============================================================ */
 @media (max-width: 768px) {
-  .horizon-story__nino,
-  .horizon-story__pets {
+  .horizon-story__nino {
     left: -8vw;
+    bottom: 0;
+    height: min(280px, 34vh);
+  }
+
+  .horizon-story__pets {
+    right: -8vw;
     bottom: 0;
     height: min(280px, 34vh);
   }
