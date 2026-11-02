@@ -294,10 +294,6 @@ export function ProjectsSection() {
           <i style={{ width: `${Math.max(8, marquee.progress * 100)}%` }} />
         </div>
 
-        <p className="marquee__note">
-          Arrastrá, usá las flechas o dejalo correr solo · pausa con el botón o
-          con la barra espaciadora
-        </p>
       </div>
     </section>
   );

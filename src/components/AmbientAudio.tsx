@@ -12,7 +12,7 @@ const BAR_COUNT = 4;
  * (CC BY 4.0) lo exige y es más honesto que esconderlo en un pie.
  */
 export function AmbientAudio() {
-  const { isPlaying, isAvailable, toggle } = useAmbientAudio();
+  const { isPlaying, isPrimed, isAvailable, toggle } = useAmbientAudio();
 
   const label = !isAvailable
     ? "Audio no disponible"
@@ -20,12 +20,15 @@ export function AmbientAudio() {
       ? "Pausar el sonido ambiente"
       : "Activar el sonido ambiente";
 
+  const status = isPlaying ? "Sonando" : "Sonido";
+
   return (
     <div className="site-audio">
       <button
         type="button"
         onClick={toggle}
         aria-pressed={isPlaying}
+        data-primed={isPrimed || undefined}
         aria-label={label}
         className="site-audio__button"
         disabled={!isAvailable}
@@ -40,9 +43,7 @@ export function AmbientAudio() {
             />
           ))}
         </span>
-        <span className="site-audio__label">
-          {isPlaying ? "Sonando" : "Sonido"}
-        </span>
+        <span className="site-audio__label">{status}</span>
       </button>
 
       {isPlaying ? (
