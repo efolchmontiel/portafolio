@@ -151,3 +151,24 @@ cerro cierra dentro del encuadre. Se eliminó `nino-2.png` (sin referencias en c
 - La banda de horizonte interpolaba hacia `transparent`, que en CSS pasa por negro translúcido
   y deja una banda gris donde termina el degradado: ahora usa el mismo color con alfa decreciente.
 - Las dos siluetas de personajes no se tocaron ni se movieron.
+
+**L9** — Disposición de RDD: **el humano deja explícitamente este candidato sin revisión nativa.**
+Evidencia del intento, en orden:
+1. `inspect` ofreció `review.start` para el candidato `sha256:46402d46…` (17 commits, ~8.500 líneas, ~90 archivos).
+2. Primer START: `lenses-invalid` — rechazo de entrada, sin lineage (`lineage_created: false`).
+3. Segundo START: `lens_context_budget_exceeded` — el candidato completo excede el presupuesto de
+   contexto del revisor. Terminal para ese candidato: reintentarlo no puede funcionar y el proveedor
+   no trunca evidencia.
+4. El humano eligió partir el cambio en cuatro tramos agrupados. Como el rango de revisión siempre
+   es `base..candidato`, el tramo 1 (4 commits, 31 archivos, 2.213 líneas) se aisló en un worktree
+   temporal (`/tmp/rev-slice1`, ya eliminado) y se obtuvo un candidato propio
+   `sha256:1312f9e9…`.
+5. Su START devolvió **consentimiento declinado para ese candidato** (`lineage_created: false`,
+   `mutation_outcome: none`), sin que el agente lo hubiera respondido.
+6. El humano decidió dejar el candidato sin revisión. No se creó ni se consumió autoridad de
+   revisión, no hay lineage que reparar ni abandonar.
+
+Cobertura alternativa aplicada sobre el candidato: `tsc`, `lint` y `build` limpios en cada corte,
+capturas desktop 1440×900 y mobile 390×844 sección por sección, auditoría de áreas táctiles
+(0 controles bajo 24px) y detector de `impeccable` (un aviso informativo sobre la retícula
+decorativa de la sección de repositorios).
