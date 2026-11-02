@@ -54,28 +54,7 @@ Abrí [http://localhost:3000](http://localhost:3000).
 - `src/components/scene/` — escena 3D (estrellas, meteoros, siluetas, cámara)
 - `src/components/sections/` — Hero, About, Technologies, Principles, Projects, Contact, Companies
 - `assets/imagenes/` — PNG de siluetas y logos de empresas
-- `AGENTS.md` — reglas de revisión GGA (Gentleman Guardian Angel)
-
-## GGA (revisión de código)
-
-Requisito global (una vez):
-
-```bash
-gentle-ai install --component gga --agent cursor
-```
-
-En este repo:
-
-```bash
-# Si `gga` está aliased a git en tu shell, usá la ruta completa:
-GGA=/home/linuxbrew/.linuxbrew/Cellar/gga/*/bin/gga
-
-$GGA init      # ya ejecutado — crea .gga
-$GGA install   # instala pre-commit hook
-$GGA review    # revisión manual opcional
-```
-
-Reglas del proyecto: [`AGENTS.md`](AGENTS.md).
+- `AGENTS.md` — reglas de revisión y convenciones del proyecto
 
 ## Accesibilidad
 
