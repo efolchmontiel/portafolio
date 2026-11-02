@@ -312,6 +312,25 @@ html {
   z-index: 2;
   pointer-events: none;
   /*
+    La máscara disuelve el borde superior de la caja. Sin esto el degradado
+    todavía tiene color al tocar el borde y se ve una línea recta de lado a
+    lado, por más suave que sea la rampa de color.
+  */
+  -webkit-mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    #000 46%,
+    rgba(0, 0, 0, 0.55) 72%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to top,
+    #000 0%,
+    #000 46%,
+    rgba(0, 0, 0, 0.55) 72%,
+    transparent 100%
+  );
+  /*
     Los stops finales usan el mismo color con alfa 0 en vez de `transparent`:
     interpolar hacia `transparent` pasa por negro translúcido y deja una banda
     gris visible donde termina el degradado.
@@ -573,6 +592,31 @@ html {
 /* ============================================================
    Transicional — se reemplaza en T2 (nav) y T3 (campo de estrellas)
    ============================================================ */
+.stars-veil {
+  position: fixed;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  /*
+    Va por encima de la banda de horizonte (z-2): así el cielo estrellado
+    sigue viéndose abajo en vez de cortarse donde empieza el resplandor.
+  */
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 52%,
+    rgba(0, 0, 0, 0.55) 78%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 52%,
+    rgba(0, 0, 0, 0.55) 78%,
+    rgba(0, 0, 0, 0.25) 100%
+  );
+}
+
 .stars-backdrop {
   background-image:
     radial-gradient(1px 1px at 10% 15%, rgba(248, 250, 252, 0.5), transparent),
@@ -587,7 +631,20 @@ html {
     radial-gradient(1px 1px at 60% 48%, rgba(203, 213, 225, 0.4), transparent),
     radial-gradient(1px 1px at 78% 52%, rgba(248, 250, 252, 0.4), transparent),
     radial-gradient(1px 1px at 88% 62%, rgba(203, 213, 225, 0.45), transparent),
-    radial-gradient(1.2px 1.2px at 48% 38%, rgba(248, 250, 252, 0.55), transparent);
+    radial-gradient(1.2px 1.2px at 48% 38%, rgba(248, 250, 252, 0.55), transparent),
+    /* Cola baja: el cielo sigue estrellado hasta el horizonte */
+    radial-gradient(1px 1px at 8% 72%, rgba(203, 213, 225, 0.35), transparent),
+    radial-gradient(1px 1px at 19% 84%, rgba(248, 250, 252, 0.3), transparent),
+    radial-gradient(1px 1px at 31% 76%, rgba(203, 213, 225, 0.32), transparent),
+    radial-gradient(1px 1px at 43% 88%, rgba(248, 250, 252, 0.28), transparent),
+    radial-gradient(1px 1px at 56% 79%, rgba(203, 213, 225, 0.34), transparent),
+    radial-gradient(1px 1px at 67% 91%, rgba(248, 250, 252, 0.26), transparent),
+    radial-gradient(1px 1px at 74% 73%, rgba(203, 213, 225, 0.33), transparent),
+    radial-gradient(1px 1px at 86% 86%, rgba(248, 250, 252, 0.28), transparent),
+    radial-gradient(1px 1px at 94% 77%, rgba(203, 213, 225, 0.3), transparent),
+    radial-gradient(1px 1px at 52% 68%, rgba(248, 250, 252, 0.3), transparent),
+    radial-gradient(1px 1px at 24% 94%, rgba(203, 213, 225, 0.22), transparent),
+    radial-gradient(1px 1px at 81% 96%, rgba(248, 250, 252, 0.2), transparent);
   background-size: 100% 100%;
 }
 
