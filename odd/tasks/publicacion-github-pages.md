@@ -36,15 +36,15 @@ de `master`), no el estado viejo de `master`.
 
 ## Tasks
 
-| ID | Tarea | Specs | Ruta |
-|----|-------|-------|------|
-| T1 | LinkedIn real + constantes públicas de contacto como respaldo de build | S1, S3 | inline |
-| T2 | Export estático y `basePath` `/portafolio` con rutas de assets correctas | S2, S4 | inline |
-| T3 | Workflow de GitHub Actions que construye y despliega a Pages | S2 | inline |
-| T4 | Verificación local del artefacto estático bajo `/portafolio` (visual + red) | S2, S4 | inline |
-| T5 | Publicar: repo público, push, PR a `master`, merge y Pages habilitado | S2, S3 | inline |
-| T6 | Verificación en vivo del sitio publicado y entrega del enlace | S2 | inline |
-| T7 | README: deploy en GitHub Pages y variables públicas | S2, S3 | inline |
+| ID | Tarea | Specs | Ruta | Commit |
+|----|-------|-------|------|--------|
+| T1 | LinkedIn real + constantes públicas de contacto como respaldo de build | S1, S3 | inline | `93e3665` |
+| T2 | Export estático y `basePath` `/portafolio` con rutas de assets correctas | S2, S4 | inline | `cf1108c` |
+| T3 | Workflow de GitHub Actions que construye y despliega a Pages | S2 | inline | `cf1108c` |
+| T4 | Verificación local del artefacto estático bajo `/portafolio` (visual + red) | S2, S4 | inline | `cf1108c` |
+| T5 | Publicar: repo público, push, PR a `master`, merge y Pages habilitado | S2, S3 | inline | `7803bfb` (merge de PR #1) |
+| T6 | Verificación en vivo del sitio publicado y entrega del enlace | S2 | inline | — (sin commit) |
+| T7 | README: deploy en GitHub Pages y variables públicas | S2, S3 | inline | `cf1108c` |
 
 ## Cortes de entrega
 
@@ -59,6 +59,22 @@ Esta feature agrega ~40 líneas en 2 commits encima de esa base. El reparto eleg
 único PR de publicación, porque el usuario autorizó mergear *este* PR y lo que se publica
 es el estado de la rama completa (S4); partir la base histórica en PRs encadenados pediría
 una segunda autorización de merge que no fue otorgada.
+
+## Cierre
+
+Estado: **publicado y verificado en vivo** → <https://efolchmontiel.github.io/portafolio/>
+
+- PR #1 (`feature/cielo-profundo` → `master`), mergeado como `7803bfb` con autorización
+explícita del usuario (L2).
+- Run de deploy `41631887170` (workflow `Deploy a GitHub Pages`): build + deploy en verde.
+- Verificación en vivo: `/portafolio/`, `audio/quiet-night.mp3`, `favicon.ico` e imágenes de
+`_next/static/media` responden 200; consola sin errores (solo el warning de `THREE.Clock`
+deprecado y el `ERR_ABORTED` normal del preload de audio).
+- Contacto en vivo: GitHub, LinkedIn (`https://www.linkedin.com/in/erick-folch-649018449/`) y
+correo visibles, `target="_blank"` + `rel="noopener noreferrer"`, 46 px de alto.
+- Repo público y `homepageUrl` del repo apuntando al sitio.
+- Advertencia no bloqueante del runner: las actions de Pages siguen en runtime Node 20
+(deprecado); el run pasa.
 
 ## Log
 
@@ -91,3 +107,15 @@ una segunda autorización de merge que no fue otorgada.
 - Escaneo de todo el historial: sin `.env*`, `appsettings*`, claves, tokens ni
   `PRIVATE KEY` en ningún commit.
 - `master` está 0 adelante / 23 atrás respecto de `feature/cielo-profundo`.
+
+**L4 — Cierre (2026-11-03):**
+
+- `pnpm lint` limpio; `pnpm build` verde con `output: "export"`.
+- `out/index.html` referencia `/portafolio/_next/...`, `/portafolio/audio/quiet-night.mp3` y
+  las dos imágenes de `assets/` con el prefijo correcto (antes el audio quedaba en `/audio/`
+  y habría dado 404 en Pages).
+- Verificado en navegador (desktop 1280×800 y móvil 390×844): portada de sonido, sección de
+  contacto con los tres enlaces, `scrollWidth === innerWidth` (sin overflow horizontal).
+- `pnpm dev` sirve en `/portafolio`; `/` da 404, como documenta el README.
+- Pendiente conocido: el diff del PR arrastra la feature anterior `cielo-profundo`
+  (~8,8k líneas) porque nunca llegó a `master`; esta feature son ~40 líneas.
