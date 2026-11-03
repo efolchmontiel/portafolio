@@ -1,22 +1,24 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useRef } from "react";
 import { ScrollProgressProvider } from "@/context/ScrollProgressContext";
+import { AmbientAudioProvider } from "@/context/AmbientAudioContext";
 import { ShootingStarProvider } from "@/context/ShootingStarContext";
-import { ScrollAnimations } from "@/components/ScrollAnimations";
 import { SiteNav } from "@/components/SiteNav";
+import { ChapterRail } from "@/components/ChapterRail";
 import { HeroSection } from "@/components/sections/HeroSection";
-import { AboutSection } from "@/components/sections/AboutSection";
-import { TechnologiesSection } from "@/components/sections/TechnologiesSection";
-import { PrinciplesSection } from "@/components/sections/PrinciplesSection";
+import { TimelineSection } from "@/components/sections/TimelineSection";
+import { CraftSection } from "@/components/sections/CraftSection";
 import { ProjectsSection } from "@/components/sections/ProjectsSection";
 import { ContactSection } from "@/components/sections/ContactSection";
-import { CompaniesSection } from "@/components/sections/CompaniesSection";
-import { HorizonGroundLayer } from "@/components/HorizonGroundLayer";
+import { HorizonBand } from "@/components/HorizonBand";
+import { HorizonRidge } from "@/components/HorizonRidge";
 import { HorizonStoryLayer } from "@/components/HorizonStoryLayer";
-import { ConstellationsLayer } from "@/components/ConstellationsLayer";
+import { ZodiacLayer } from "@/components/ZodiacLayer";
 import { StarsBackdrop } from "@/components/StarsBackdrop";
+import { Meteors } from "@/components/ui/meteors";
+import { Colophon } from "@/components/Colophon";
+import { SoundGate } from "@/components/SoundGate";
 
 const NightScene = dynamic(
   () =>
@@ -26,29 +28,44 @@ const NightScene = dynamic(
   { ssr: false },
 );
 
+/**
+ * Composición de capas del sitio.
+ *
+ * z0 canvas 3D · z1 estrellas de respaldo · z2 meteoros · z3 zodíaco ·
+ * z2 banda de horizonte · z7 siluetas · z10 contenido · z55/60 navegación.
+ */
 export function PortfolioPage() {
-  const mainRef = useRef<HTMLElement>(null);
-
   return (
     <ScrollProgressProvider>
+      <AmbientAudioProvider>
       <ShootingStarProvider>
         <NightScene />
         <StarsBackdrop />
-        <HorizonGroundLayer />
+        <div
+          className="pointer-events-none fixed inset-0 z-[2] overflow-hidden"
+          aria-hidden
+        >
+          <Meteors number={20} />
+        </div>
+        <HorizonBand />
+        <HorizonRidge />
         <HorizonStoryLayer />
-        <ConstellationsLayer />
-        <main ref={mainRef} className="content-layer">
+        <ZodiacLayer />
+
+        <SoundGate />
+
+        <main className="content-layer">
           <SiteNav />
-          <ScrollAnimations containerRef={mainRef} />
+          <ChapterRail />
           <HeroSection />
-          <AboutSection />
-          <TechnologiesSection />
-          <PrinciplesSection />
+          <TimelineSection />
+          <CraftSection />
           <ProjectsSection />
           <ContactSection />
-          <CompaniesSection />
+          <Colophon />
         </main>
       </ShootingStarProvider>
+      </AmbientAudioProvider>
     </ScrollProgressProvider>
   );
 }

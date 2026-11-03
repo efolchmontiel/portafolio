@@ -1,58 +1,99 @@
 "use client";
 
+import { sectionIds } from "@/data/sections";
 import { motion } from "framer-motion";
-import { SectionShell } from "@/components/ui/SectionShell";
+import { profile } from "@/data/profile";
+import { usePointerParallax } from "@/hooks/usePointerParallax";
+import { accentStyle } from "@/lib/accents";
+import { easeOut } from "@/lib/motion";
 
+/**
+ * Hero del artboard: titular de póster con la segunda línea en contorno,
+ * metadatos en monoespaciada y dos llamadas a la acción.
+ */
 export function HeroSection() {
+  const parallaxRef = usePointerParallax<HTMLDivElement>({ strength: 8 });
+
   return (
-    <SectionShell
-      id="hero"
-      title=""
-      variant="full"
-      className="hero-section !py-0"
-    >
-      <div className="flex flex-col items-center justify-center text-center -mt-16">
+    <section id={sectionIds.hero} className="chapter hero">
+      <div className="wrap hero__copy">
         <motion.p
-          className="text-accent-cyan text-sm uppercase tracking-[0.35em] mb-6"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 0.8 }}
+          className="label"
+          initial={{ y: 12, filter: "blur(6px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
+          transition={{ delay: 0.15, duration: 0.7, ease: easeOut }}
         >
-          Universo digital
+          {profile.name} · {profile.location}
         </motion.p>
-        <motion.h1
-          className="section-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold max-w-4xl leading-tight text-text-light"
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          Construyo experiencias digitales modernas.
-        </motion.h1>
+
+        <div ref={parallaxRef}>
+          <motion.h1
+            className="display hero__title"
+            initial={{ y: 24, filter: "blur(6px)" }}
+            animate={{ y: 0, filter: "blur(0px)" }}
+            transition={{ delay: 0.3, duration: 0.9, ease: easeOut }}
+          >
+            {profile.headline[0]}
+            <br />
+            <span className="display-outline">{profile.headline[1]}</span>
+          </motion.h1>
+        </div>
+
         <motion.p
-          className="mt-8 max-w-2xl text-lg md:text-xl text-text-light/70 font-light"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8 }}
+          className="lede"
+          initial={{ y: 18, filter: "blur(6px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
+          transition={{ delay: 0.5, duration: 0.8, ease: easeOut }}
         >
-          Desarrollador Full Stack especializado en desarrollo frontend, backend
-          y móvil.
+          {profile.summary}
         </motion.p>
+
+        <motion.dl
+          className="hero__meta"
+          initial={{ filter: "blur(6px)" }}
+          animate={{ filter: "blur(0px)" }}
+          transition={{ delay: 0.7, duration: 0.8 }}
+        >
+          {profile.meta.map((item) => (
+            <div key={item.label}>
+              <b>{item.label}</b> {item.value}
+            </div>
+          ))}
+        </motion.dl>
 
         <motion.div
-          className="mt-16 flex flex-col items-center gap-2 text-text-light/40"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.4 }}
+          className="hero__cta"
+          initial={{ y: 14, filter: "blur(6px)" }}
+          animate={{ y: 0, filter: "blur(0px)" }}
+          transition={{ delay: 0.85, duration: 0.8, ease: easeOut }}
+        >
+          <a
+            className="btn btn--primary"
+            style={accentStyle("cyan")}
+            href={`#${sectionIds.repos}`}
+          >
+            {profile.ctaPrimary}
+          </a>
+          <a
+            className="btn btn--ghost"
+            style={accentStyle("violet")}
+            href={`#${sectionIds.contact}`}
+          >
+            {profile.ctaSecondary}
+          </a>
+        </motion.div>
+
+        <motion.p
+          className="hero__scroll"
+          initial={{ filter: "blur(6px)" }}
+          animate={{ filter: "blur(0px)" }}
+          transition={{ delay: 1, duration: 0.8, ease: easeOut }}
           aria-hidden
         >
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
-          <motion.div
-            className="w-px h-12 bg-gradient-to-b from-accent-cyan/80 to-transparent"
-            animate={{ scaleY: [1, 0.6, 1], opacity: [0.5, 1, 0.5] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-          />
-        </motion.div>
+          <i />
+          Seguí bajando
+        </motion.p>
       </div>
-    </SectionShell>
+    </section>
   );
 }

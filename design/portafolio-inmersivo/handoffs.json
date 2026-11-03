@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "chosen": "01-deep-sky.html",
+  "handoffs": {
+    "01-deep-sky.html": {
+      "status": "implemented",
+      "queued": false,
+      "sentAt": "2026-11-02T14:58:17.852Z",
+      "startedAt": "2026-11-02T14:58:41.258Z",
+      "implementedAt": "2026-11-02T21:10:41.200Z",
+      "note": "Segunda fase en el borde derecho (align end) y en su orientación natural, con el niño mirando hacia la izquierda. Las dos siluetas se miran: la primera queda en el borde izquierdo espejada. Handoff cerrado.",
+      "previewUrl": "http://localhost:3000/"
+    }
+  }
+}

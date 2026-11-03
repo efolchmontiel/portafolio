@@ -1,0 +1,27 @@
+{
+  "title": "Portafolio inmersivo",
+  "brief": "Rediseño del portafolio de Erick Folch Montiel: cinematográfico e interactivo (referencia unseen.co/projects y el scroll-storytelling de koncep.to), con el niño y la constelación resueltos por contraste, signos zodiacales que se revelan al scrollear, música ambiente real, y los repositorios personales en paneles y marquesina que avanza sola, se pausa y se arrastra.",
+  "artboards": [
+    {
+      "file": "01-deep-sky.html",
+      "title": "Cielo profundo",
+      "tradeoff": "Máxima inmersión: tipografía enorme, horizonte luminoso, zodíaco que cambia con el scroll y la sección de repos más resuelta (panel destacado con borde animado + marquesina de tarjetas con acento y arte propios). La música real está embebida acá. Es la más pesada y la más difícil de rendir en móvil.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "02-observatorio.html",
+      "title": "Observatorio",
+      "tradeoff": "Mejor jerarquía y legibilidad: ocular fijo tipo instrumento que cambia de objeto con la sección y readout vertical de repos. Más sobrio, menos cinematográfico, y el audio es una aproximación sintetizada.",
+      "width": 1440,
+      "height": 900
+    },
+    {
+      "file": "03-constelacion.html",
+      "title": "Constelación",
+      "tradeoff": "La más interactiva: el contenido vive sobre un campo de estrellas y los repos son un mapa arrastrable con nodos por lenguaje. La más singular y la más difícil para contenido largo; el audio es sintetizado.",
+      "width": 1440,
+      "height": 900
+    }
+  ]
+}

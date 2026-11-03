@@ -1,8 +1,8 @@
-# Portafolio — Reglas de revisión (GGA)
+# Portafolio — Reglas de revisión
 
 Proyecto: **Next.js 16** + **React 19** + **TypeScript strict** + **Tailwind v4** + **R3F/GSAP**.
 
-Primera línea de respuesta GGA (obligatoria):
+Al revisar un cambio, la primera línea de la respuesta declara el resultado:
 
 ```text
 STATUS: PASSED
@@ -181,13 +181,6 @@ pnpm build
 pnpm lint
 ```
 
-En el repo (GGA):
-
-```bash
-gga review          # revisión manual
-# pre-commit hook tras gga install
-```
-
 ---
 
 ## Checklist antes de aprobar PR
@@ -196,5 +189,5 @@ gga review          # revisión manual
 - [ ] Validación de env y URLs.
 - [ ] Todo `catch` con mensaje de error.
 - [ ] Sin secretos ni logs de depuración.
-- [ ] Build y lint sin errores.
+- [ ] Build y lint sin errores (`pnpm build`, `pnpm lint`).
 - [ ] Animaciones respetan `prefers-reduced-motion`.

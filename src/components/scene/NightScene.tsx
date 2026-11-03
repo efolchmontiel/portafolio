@@ -7,12 +7,10 @@ import { useMediaQuery } from "@/hooks/useMediaQuery";
 import { SceneInteractionProvider } from "@/context/SceneInteractionContext";
 import { NightSkyDome } from "./NightSkyDome";
 import { Starfield } from "./Starfield";
-import { Meteors } from "./Meteors";
 import { AtmosphericFog } from "./AtmosphericFog";
 import { CameraRig } from "./CameraRig";
 import { SceneRimLights } from "./SceneRimLights";
 import { Fireflies } from "./Fireflies";
-import { CountrysideSilhouettes } from "./CountrysideSilhouettes";
 
 type SceneContentProps = {
   reducedMotion: boolean;
@@ -32,11 +30,6 @@ function SceneContent({ reducedMotion, isMobile }: SceneContentProps) {
         <Starfield reducedMotion={reducedMotion} isMobile={isMobile} />
       </Suspense>
 
-      <Suspense fallback={null}>
-        <CountrysideSilhouettes />
-      </Suspense>
-
-      {!reducedMotion && <Meteors enabled />}
       {!reducedMotion && <Fireflies count={isMobile ? 18 : 28} />}
       <CameraRig reducedMotion={reducedMotion} />
     </>

@@ -1,49 +1,71 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { useActiveSection } from "@/hooks/useActiveSection";
 import { useShootingStar } from "@/context/ShootingStarContext";
 import { navItems } from "@/data/nav";
+import { AmbientAudio } from "@/components/AmbientAudio";
 
+const sectionIds = navItems.map((item) => item.id);
+
+/**
+ * Barra superior del sitio.
+ *
+ * Transparente sobre el cielo del hero y sólida al scrollear: sin ese cambio
+ * el contenido se lee a través de la barra y se ensucia.
+ */
 export function SiteNav() {
   const { triggerShootingStar } = useShootingStar();
+  const active = useActiveSection(sectionIds, sectionIds[0] ?? "hero");
+  const [isScrolled, setIsScrolled] = useState(false);
 
-  const scrollToSection = (id: string) => {
-    try {
-      triggerShootingStar();
-      const el = document.getElementById(id);
-      if (!el) {
-        console.error(`Sección no encontrada al navegar: #${id}`);
-        return;
-      }
-      el.scrollIntoView({ behavior: "smooth", block: "start" });
-    } catch (error) {
-      const message =
-        error instanceof Error
-          ? error.message
-          : "Error desconocido al desplazarse a la sección";
-      console.error(`Navegación fallida hacia #${id}: ${message}`);
+  useEffect(() => {
+    const onScroll = () => setIsScrolled(window.scrollY > 40);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  const scrollTo = (id: string) => {
+    triggerShootingStar();
+    const target = document.getElementById(id);
+    if (!target) {
+      console.error(`Sección no encontrada al navegar: #${id}`);
+      return;
     }
+    target.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
   return (
-    <nav
-      className="site-nav relative z-[100] w-full pointer-events-auto"
-      aria-label="Navegación principal"
-    >
-      <div className="mx-auto flex max-w-6xl items-center justify-center gap-4 px-4 py-4 md:gap-8 md:px-8">
-        <ul className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
-          {navItems.map(({ id, label }) => (
-            <li key={id}>
-              <button
-                type="button"
-                onClick={() => scrollToSection(id)}
-                className="text-xs uppercase tracking-widest text-text-light/60 transition-colors hover:text-accent-cyan focus:outline-none focus-visible:text-accent-cyan focus-visible:ring-2 focus-visible:ring-accent-cyan/50 rounded px-1"
-              >
-                {label}
-              </button>
-            </li>
-          ))}
-        </ul>
+    <header className={`site-nav${isScrolled ? " is-scrolled" : ""}`}>
+      <div className="site-nav__inner">
+        <button
+          type="button"
+          className="site-nav__brand"
+          onClick={() => scrollTo(sectionIds[0] ?? "hero")}
+        >
+          <span className="site-nav__dot" aria-hidden />
+          Erick Folch
+        </button>
+
+        <nav aria-label="Navegación principal">
+          <ul className="site-nav__links">
+            {navItems.map((item) => (
+              <li key={item.id}>
+                <button
+                  type="button"
+                  onClick={() => scrollTo(item.id)}
+                  aria-current={active === item.id ? "true" : undefined}
+                >
+                  {item.label}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        <AmbientAudio />
       </div>
-    </nav>
+    </header>
   );
 }
