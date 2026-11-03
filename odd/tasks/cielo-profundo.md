@@ -172,3 +172,24 @@ Cobertura alternativa aplicada sobre el candidato: `tsc`, `lint` y `build` limpi
 capturas desktop 1440×900 y mobile 390×844 sección por sección, auditoría de áreas táctiles
 (0 controles bajo 24px) y detector de `impeccable` (un aviso informativo sobre la retícula
 decorativa de la sección de repositorios).
+
+**L10** — Reintentos de RDD tras los commits de audio y portada de entrada.
+Cada commit nuevo genera un candidato nuevo, y cada uno volvió a dar **consentimiento declinado**
+sin que el agente lo hubiera respondido:
+
+| Target | Archivos | Líneas | Resultado |
+| --- | --- | --- | --- |
+| `sha256:c3424c9c…` | 87 | 8.523 | `consent-declined-this-candidate`, sin lineage |
+| `sha256:e500a243…` | 89 | 8.752 | `consent-declined-this-candidate`, sin lineage |
+
+El patrón se repite en todos los candidatos de esta rama, así que no es cuestión de tamaño: el
+consentimiento se resuelve del lado del host. El agente no responde consentimiento por prosa ni por
+argumentos, así que se detiene acá y no reintenta en esta sesión.
+
+Salidas posibles, ambas del humano:
+- resolver el consentimiento en el host interactivo, o
+- `gentle-ai review mode disable --scope clone` (salida D del contrato).
+
+Cobertura aplicada mientras tanto: `tsc`, `lint`, `build` limpios, capturas desktop y mobile,
+escaneo de píxeles para la continuidad del cielo y verificación del estado real del `<audio>` con
+clics reales en el navegador.
