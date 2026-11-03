@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { ScrollProgressProvider } from "@/context/ScrollProgressContext";
+import { AmbientAudioProvider } from "@/context/AmbientAudioContext";
 import { ShootingStarProvider } from "@/context/ShootingStarContext";
 import { SiteNav } from "@/components/SiteNav";
 import { ChapterRail } from "@/components/ChapterRail";
@@ -17,6 +18,7 @@ import { ZodiacLayer } from "@/components/ZodiacLayer";
 import { StarsBackdrop } from "@/components/StarsBackdrop";
 import { Meteors } from "@/components/ui/meteors";
 import { Colophon } from "@/components/Colophon";
+import { SoundGate } from "@/components/SoundGate";
 
 const NightScene = dynamic(
   () =>
@@ -35,6 +37,7 @@ const NightScene = dynamic(
 export function PortfolioPage() {
   return (
     <ScrollProgressProvider>
+      <AmbientAudioProvider>
       <ShootingStarProvider>
         <NightScene />
         <StarsBackdrop />
@@ -49,6 +52,8 @@ export function PortfolioPage() {
         <HorizonStoryLayer />
         <ZodiacLayer />
 
+        <SoundGate />
+
         <main className="content-layer">
           <SiteNav />
           <ChapterRail />
@@ -60,6 +65,7 @@ export function PortfolioPage() {
           <Colophon />
         </main>
       </ShootingStarProvider>
+      </AmbientAudioProvider>
     </ScrollProgressProvider>
   );
 }

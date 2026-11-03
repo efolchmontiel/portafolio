@@ -2210,3 +2210,74 @@ html {
   background: color-mix(in srgb, var(--accent, var(--accent-cyan)) 16%, transparent);
   transform: translateY(-2px);
 }
+
+/* ============================================================
+   Portada de entrada
+   ============================================================ */
+.sound-gate {
+  position: fixed;
+  inset: 0;
+  z-index: 90;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(
+      70% 60% at 50% 100%,
+      color-mix(in srgb, var(--horizon-core) 55%, transparent),
+      transparent 70%
+    ),
+    color-mix(in srgb, var(--sky-ink) 98%, transparent);
+  backdrop-filter: blur(18px);
+}
+
+.sound-gate__glow {
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 40vh;
+  pointer-events: none;
+  background: radial-gradient(
+    60% 100% at 50% 100%,
+    color-mix(in srgb, var(--accent-cyan) 12%, transparent),
+    transparent 70%
+  );
+}
+
+.sound-gate__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  text-align: center;
+}
+
+.sound-gate__title {
+  margin: 1.25rem 0 0;
+  font-size: clamp(38px, 6.6vw, 92px);
+}
+
+.sound-gate__copy {
+  margin: 1.5rem auto 0;
+  max-width: 44ch;
+  font-size: 16px;
+  line-height: 1.7;
+  font-weight: 300;
+  color: var(--ink-secondary);
+}
+
+.sound-gate__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.9rem;
+  justify-content: center;
+  margin-top: 2.25rem;
+}
+
+@media (max-width: 560px) {
+  .sound-gate__actions {
+    flex-direction: column;
+  }
+
+  .sound-gate__actions .btn {
+    justify-content: center;
+  }
+}

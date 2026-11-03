@@ -12,6 +12,10 @@ type AmbientAudioState = {
   readonly isPrimed: boolean;
   readonly isAvailable: boolean;
   readonly toggle: () => void;
+  /** Enciende el audio audible; lo usa la portada de entrada. */
+  readonly startAudible: () => void;
+  /** Baja el volumen y pausa. */
+  readonly pause: () => void;
 };
 
 type PendingFrame = { current: number | null };
@@ -59,7 +63,7 @@ function fadeVolume(
  * interfaz dijera "Sonando" con el audio en silencio.
  */
 export function useAmbientAudio(): AmbientAudioState & {
-  audioRef: React.RefObject<HTMLAudioElement | null>;
+  readonly audioRef: React.RefObject<HTMLAudioElement | null>;
 } {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const frameRef = useRef<number | null>(null);
@@ -180,6 +184,15 @@ export function useAmbientAudio(): AmbientAudioState & {
     };
   }, [startAudible]);
 
+  const pause = useCallback(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+    userPausedRef.current = true;
+    fadeVolume(audio, 0, ambientAudio.fadeOutMs, frameRef);
+    window.setTimeout(() => audio.pause(), ambientAudio.fadeOutMs);
+    syncState();
+  }, [syncState]);
+
   const toggle = useCallback(() => {
     const audio = audioRef.current;
     if (!audio) return;
@@ -188,16 +201,21 @@ export function useAmbientAudio(): AmbientAudioState & {
     const isAudible = !audio.paused && !audio.muted && audio.volume > 0.001;
 
     if (isAudible) {
-      userPausedRef.current = true;
-      fadeVolume(audio, 0, ambientAudio.fadeOutMs, frameRef);
-      window.setTimeout(() => audio.pause(), ambientAudio.fadeOutMs);
-      syncState();
+      pause();
       return;
     }
 
     userPausedRef.current = false;
     startAudible();
-  }, [startAudible, syncState]);
+  }, [pause, startAudible]);
 
-  return { isPlaying, isPrimed, isAvailable, toggle, audioRef };
+  return {
+    isPlaying,
+    isPrimed,
+    isAvailable,
+    toggle,
+    startAudible,
+    pause,
+    audioRef,
+  };
 }
