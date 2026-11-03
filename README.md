@@ -28,17 +28,27 @@ pnpm install
 pnpm dev
 ```
 
-Abrí [http://localhost:3000](http://localhost:3000).
+Abrí [http://localhost:3000/portafolio](http://localhost:3000/portafolio).
 
 > **Importante:** este repo usa **pnpm** como gestor de paquetes. No uses `npm install` ni `npm run` aquí.
 
 ## Variables de entorno
 
+Los datos de contacto públicos (GitHub, LinkedIn y correo) viven en
+`src/config/site.ts`, porque son datos que de todos modos viajan al bundle del
+navegador y el build de GitHub Pages no tiene acceso a `.env.local`.
+
+`.env.local` es **opcional** y sirve para sobreescribirlos en desarrollo; no se
+commitea.
+
 | Variable | Descripción |
 |----------|-------------|
-| `NEXT_PUBLIC_GITHUB_URL` | URL de tu perfil o repo en GitHub |
-| `NEXT_PUBLIC_LINKEDIN_URL` | URL de tu perfil de LinkedIn |
-| `NEXT_PUBLIC_EMAIL` | Correo de contacto (se usa en enlace mailto) |
+| `NEXT_PUBLIC_GITHUB_URL` | URL del perfil o repo de GitHub |
+| `NEXT_PUBLIC_LINKEDIN_URL` | URL del perfil de LinkedIn |
+| `NEXT_PUBLIC_EMAIL` | Correo de contacto (enlace mailto) |
+
+Ningún secreto va en variables `NEXT_PUBLIC_*`: quedan escritas en el bundle
+que descarga el navegador.
 
 ## Scripts
 
@@ -66,4 +76,16 @@ El script `pnpm dev` usa Webpack (no Turbopack) para evitar indicadores extra de
 
 ## Deploy
 
-Compatible con [Vercel](https://vercel.com). En el panel del proyecto, configurá el install command como `pnpm install` y `NEXT_PUBLIC_GITHUB_URL` en variables de entorno.
+El sitio se publica en **GitHub Pages**: <https://efolchmontiel.github.io/portafolio/>
+
+- `next.config.ts` usa `output: "export"` y `basePath: "/portafolio"`, así que el
+  build queda como archivos estáticos en `out/` y todas las rutas cuelgan de la
+  subruta del repositorio. El `basePath` también aplica en `pnpm dev`.
+- `.github/workflows/deploy-pages.yml` corre en cada push a `master`: instala con
+  pnpm, ejecuta lint y build, y publica `out/` como artefacto de Pages. `out/`
+  no se commitea.
+- Un archivo servido desde `/public` que no pase por `next/image` necesita el
+  `SITE_BASE_PATH` a mano (es el caso de la pista de audio).
+
+Si el repo se renombra o se mueve a una organización, hay que ajustar
+`SITE_BASE_PATH` en `src/config/site.ts`.

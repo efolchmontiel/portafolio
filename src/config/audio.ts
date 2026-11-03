@@ -1,3 +1,5 @@
+import { SITE_BASE_PATH } from "@/config/site";
+
 /**
  * Pista de ambiente del sitio.
  *
@@ -5,7 +7,8 @@
  * acá y lo renderiza `AmbientAudio` junto al control.
  */
 export const ambientAudio = {
-  src: "/audio/quiet-night.mp3",
+  /** El `src` de un `<audio>` no pasa por `next/image`: el basePath va a mano. */
+  src: `${SITE_BASE_PATH}/audio/quiet-night.mp3`,
   title: "Quiet Night",
   author: "Purrple Cat",
   license: "CC BY 4.0",
